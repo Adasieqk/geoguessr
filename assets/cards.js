@@ -55,7 +55,8 @@ route(/^\/progress$/, async app => {
 
 route(/^\/deck\/([a-z0-9-]+)$/, async (app, m, q) => {
   const meta = G.decks.find(d => d.id === m[1]); if (!meta) throw new Error('deck not found');
-  const deck = await getJSON(`data/decks/${m[1]}.json`);
+  const deck0 = await getJSON(`data/decks/${m[1]}.json`);
+  const deck = { ...deck0, cards: deck0.cards.map(c => (c.q && c.q.length) || !c.pk || !pkl(c.pk) ? c : { ...c, q: [pkl(c.pk)] }).filter(c => (c.q && c.q.length) || c.qtext) };
   const st = SRS.deckStats(deck.id, deck.cards);
   const answers = [...new Set(deck.cards.map(c => c.a))];
   const canChoice = answers.length >= 4;

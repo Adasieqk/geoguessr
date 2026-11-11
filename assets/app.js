@@ -1,6 +1,9 @@
 /* GeoStudy – personal GeoGuessr study site. Vanilla JS, hash router. */
 'use strict';
-const G = { index: null, cache: {}, decks: null, curated: {} };
+const G = { index: null, cache: {}, decks: null, curated: {}, pk: {} };
+/* plonkit pictures downloaded locally with scripts/fetch_plonkit_images.py (data/pk_local.json) */
+const pkl = u => (u && G.pk[u]) || null;
+const imgOf = (img, pk) => img || pkl(pk);
 const $ = (s, el = document) => el.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const IMG = (src, cls = '', alt = '') => src ? `<img src="${esc(src)}" class="${cls}" alt="${esc(alt)}" loading="lazy" referrerpolicy="no-referrer" decoding="async" onerror="this.classList.add('broken')">` : '';
@@ -138,7 +141,7 @@ route(/^\/continent\/([a-z-]+)$/, async (app, m) => {
 });
 
 /* ------------------------------------------------------------ country page */
-const tipHTML = (t, slug) => `<div class="tip ${t.img ? '' : 'noimg'}">${t.img ? `<div>${IMG(t.img)}${t.imgs && t.imgs.length > 1 ? `<div class="imgrow" style="margin-top:.3rem">${t.imgs.slice(1).map(i => IMG(i, 'small')).join('')}</div>` : ''}</div>` : ''}<div class="txt">${t.html || ''}<div class="src">${t.link ? `<a href="${esc(t.link)}" target="_blank" rel="noopener">📍 Street View</a> · ` : ''}${t.img ? '' : `<span title="plonkit does not allow embedding its pictures; this one had no learnablemeta copy">📷 picture only on <a href="https://www.plonkit.net/${slug || ''}" target="_blank" rel="noopener">plonkit</a></span>`}</div></div></div>`;
+const tipHTML = (t0, slug) => { const t = { ...t0, img: imgOf(t0.img, t0.pk_img) }; return `<div class="tip ${t.img ? '' : 'noimg'}">${t.img ? `<div>${IMG(t.img)}${t.imgs && t.imgs.length > 1 ? `<div class="imgrow" style="margin-top:.3rem">${t.imgs.slice(1).map(i => IMG(i, 'small')).join('')}</div>` : ''}</div>` : ''}<div class="txt">${t.html || ''}<div class="src">${t.link ? `<a href="${esc(t.link)}" target="_blank" rel="noopener">📍 Street View</a> · ` : ''}${t.img ? '' : `<span title="plonkit does not allow embedding its pictures; this one had no learnablemeta copy">📷 picture only on <a href="https://www.plonkit.net/${slug || ''}" target="_blank" rel="noopener">plonkit</a></span>`}</div></div></div>`; };
 const metaHTML = m => `<div class="meta-item"><b>${esc(m.name)}</b> <span class="muted small">· ${esc(m.map)}</span><div class="note">${m.note || ''}</div><div class="imgs">${(m.images || []).map(i => IMG(i)).join('')}</div></div>`;
 function stepsHTML(steps, open, slug) {
   return steps.map((s, i) => {
@@ -146,6 +149,7 @@ function stepsHTML(steps, open, slug) {
     const body = s.items.map(it => {
       if (it.k === 'tip') return tipHTML(it, slug);
       if (it.k === 'h') return `<h3 class="subh">${esc(it.title)}</h3>`;
+      if (it.k === 'img') it = { ...it, img: imgOf(it.img, it.pk_img) };
       if (it.k === 'img') return it.img || it.html ? `<div class="card" style="text-align:center">${IMG(it.img)}${it.html ? `<div class="small">${it.html}</div>` : ''}${it.img ? '' : `<div class="muted small">🖼 infographic – see <a href="https://www.plonkit.net/${slug}" target="_blank" rel="noopener">plonkit</a></div>`}</div>` : '';
       if (it.k === 'text') return `<div class="card">${it.html}</div>`;
       return '';
@@ -219,14 +223,14 @@ route(/^\/topic\/([a-z-]+)$/, async (app, m, q) => {
   ${rows.map(r => `<div class="card" id="c-${r.slug}"><h3>${IMG(r.flag, 'flag')} <a href="#/country/${r.slug}">${esc(r.name)}</a> ${tid === 'phone' ? `<span class="muted">${esc(r.phone || '')}</span>` : ''}${tid === 'road-lines' && r.gm_note ? `<span class="muted small"> · ${esc(r.gm_note)}</span>` : ''}</h3>
     ${r.gm_imgs?.length ? `<div class="imgrow">${r.gm_imgs.map(i => IMG(i, tid === 'signs' ? 'sign' : '')).join('')}</div>` : ''}
     ${r.gm_note && tid !== 'road-lines' ? `<div class="small muted">${esc(r.gm_note)}</div>` : ''}
-    ${r.tips.map(t => `<div class="tip compact">${t.img ? `<div>${IMG(t.img)}</div>` : '<div></div>'}<div class="txt">${t.html}<div class="src">${esc(t.step)}</div></div></div>`).join('')}
+    ${r.tips.map(t => `<div class="tip compact">${imgOf(t.img, t.pk) ? `<div>${IMG(imgOf(t.img, t.pk))}</div>` : '<div></div>'}<div class="txt">${t.html}<div class="src">${esc(t.step)}</div></div></div>`).join('')}
   </div>`).join('') || '<p class="muted">Nothing for this continent.</p>'}`;
   app.querySelectorAll('a[href^="#c-"]').forEach(a => a.onclick = e => { e.preventDefault(); document.getElementById(a.getAttribute('href').slice(1))?.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
 });
 
 /* ------------------------------------------------------------ confusables (curated) */
 function confHTML(g) {
-  return `<div class="card"><h3>${esc(g.title)}</h3><p class="small">${g.intro || ''}</p><div class="cmp">${g.items.map(it => { const c = findC(it.slug); return `<div class="c">${IMG(it.img)}<div class="n"><a href="#/country/${it.slug}">${esc(c ? c.name : it.slug)}</a></div><div class="d">${it.note}</div></div>`; }).join('')}</div>${g.tip ? `<p class="small">💡 ${g.tip}</p>` : ''}</div>`;
+  return `<div class="card"><h3>${esc(g.title)}</h3><p class="small">${g.intro || ''}</p><div class="cmp">${g.items.map(it => { const c = findC(it.slug); return `<div class="c">${IMG(imgOf(it.img, it.pk))}<div class="n"><a href="#/country/${it.slug}">${esc(c ? c.name : it.slug)}</a></div><div class="d">${it.note}</div></div>`; }).join('')}</div>${g.tip ? `<p class="small">💡 ${g.tip}</p>` : ''}</div>`;
 }
 route(/^\/confusables$/, async app => {
   const list = G.curated.confusables || [];
@@ -276,6 +280,7 @@ $('#menu-btn').onclick = () => $('#nav').classList.toggle('open');
 (async function boot() {
   G.index = await getJSON('data/index.json');
   G.decks = await getJSON('data/decks/index.json');
+  try { G.pk = await getJSON('data/pk_local.json'); } catch (e) { G.pk = {}; }
   for (const k of ['confusables', 'brazil_ddd', 'us_states', 'indonesia', 'australia']) { try { G.curated[k] = await getJSON(`data/curated/${k}.json`); } catch (e) { G.curated[k] = null; } }
   initSearch();
   render();

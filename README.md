@@ -17,7 +17,7 @@ content and pictures belong to those projects.
 
 | path | what |
 |---|---|
-| `index.html`, `assets/` | the app: `app.js` (router, world map, country/continent/topic pages, search), `cards.js` (flashcards + spaced repetition in `localStorage`), `quiz.js` (map quizzes), `world.svg` / `us.svg` (Wikimedia Commons blank maps) |
+| `index.html`, `assets/` | the app: `app.js` (router, world map, country/continent/topic pages, search), `cards.js` (flashcards + spaced repetition in `localStorage`), `quiz.js` (map quizzes), `world.svg`, `maps/us.svg` (Wikimedia Commons), `maps/brazil.svg`, `maps/australia.svg` (@svg-maps, CC BY 4.0), `flags/` (flag-icons, MIT) |
 | `data/index.json` | list of countries (name, code, continents, phone code, driving side) |
 | `data/countries/<slug>.json` | everything about one country: geomastr quick facts, plonkit steps (text + borrowed pictures), learnablemeta metas, top clues |
 | `data/topics/*.json` | per-topic comparisons (bollards, plates, poles, road lines, signs, language, cars, landscape, phone) |
@@ -33,6 +33,19 @@ plonkit.net does not allow its pictures to be embedded on other sites (`Cross-Or
 + Cloudflare), so the build borrows the matching picture from learnablemeta.com whenever a meta there
 copies the same plonkit text (about 60 % of tips). Tips without a match are shown as text with a link
 to the plonkit guide. learnablemeta and geomastr pictures are hot-linked (not stored in the repo).
+
+## Missing plonkit pictures
+
+Run on your own computer, from the repo root (details in the script header):
+
+```bash
+pip install pillow
+python3 scripts/fetch_plonkit_images.py      # downloads ~2 000 pictures into pk/ + data/pk_local.json
+git add pk data/pk_local.json && git commit -m "Add plonkit pictures" && git push
+```
+
+If plonkit blocks the script (403), `python3 scripts/fetch_plonkit_images.py --browser` writes
+`pk_console.js` to paste into the browser console on plonkit.net, then `--import <folder>`.
 
 ## Updating
 

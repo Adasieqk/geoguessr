@@ -123,10 +123,13 @@ details>.body{padding:0 .9rem .9rem}
 .tilemap .t.ok{background:var(--acc);color:#052e16}.tilemap .t.bad{background:var(--bad);color:#450a0a}.tilemap .t.target{outline:3px solid var(--warn)}
 .tilemap .t.dim{opacity:.35;cursor:default}
 .svgmap{background:#0b1220;border:1px solid #334155;border-radius:var(--radius);overflow:hidden}
-.svgmap svg{width:100%;height:auto;max-height:70vh;display:block}
-.svgmap path{fill:#334155;stroke:#0f172a;stroke-width:1;cursor:pointer}
-.svgmap path:hover{fill:#475569}
-.svgmap path.ok{fill:var(--acc)}.svgmap path.bad{fill:var(--bad)}.svgmap path.target{fill:var(--warn)}
+.svgmap svg{width:100%;height:auto;max-height:75vh;display:block;margin:0 auto}
+.svgmap path,.svgmap .hit{fill:#334155;stroke:#0f172a;stroke-width:1;cursor:pointer;vector-effect:non-scaling-stroke}
+.svgmap .hit{stroke:#e2e8f0;stroke-width:1.5}
+.svgmap path:not([data-rid]){fill:none;pointer-events:none}
+.svgmap .lbl{fill:#fff;font-weight:700;text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:#0f172a;stroke-width:3px;stroke-linejoin:round}
+.svgmap path:hover,.svgmap .hit:hover{fill:#475569}
+.svgmap .ok{fill:var(--acc)!important}.svgmap .bad{fill:var(--bad)!important}.svgmap .target{fill:var(--warn)!important}
 .qhead{font-size:1.5rem;font-weight:700;text-align:center;margin:.6rem 0}
 .qfeed{text-align:center;min-height:1.6em;font-weight:600}
 .ok-t{color:var(--acc)}.bad-t{color:var(--bad)}

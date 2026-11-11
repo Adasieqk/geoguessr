@@ -1,81 +1,48 @@
 {
 "id": "australia",
-"title": "Australia \u2013 states & territories",
+"title": "Australia – states & territories",
 "country": "australia",
-"cols": 5,
-"rows": 4,
 "regions": [
 {
 "id": "wa",
 "abbr": "WA",
-"name": "Western Australia",
-"col": 0,
-"row": 0,
-"w": 2,
-"h": 2
+"name": "Western Australia"
 },
 {
 "id": "nt",
 "abbr": "NT",
-"name": "Northern Territory",
-"col": 2,
-"row": 0,
-"w": 1,
-"h": 1
+"name": "Northern Territory"
 },
 {
 "id": "qld",
 "abbr": "QLD",
-"name": "Queensland",
-"col": 3,
-"row": 0,
-"w": 2,
-"h": 1
+"name": "Queensland"
 },
 {
 "id": "sa",
 "abbr": "SA",
-"name": "South Australia",
-"col": 2,
-"row": 1,
-"w": 1,
-"h": 1
+"name": "South Australia"
 },
 {
 "id": "nsw",
 "abbr": "NSW",
-"name": "New South Wales",
-"col": 3,
-"row": 1,
-"w": 2,
-"h": 1
+"name": "New South Wales"
 },
 {
 "id": "act",
 "abbr": "ACT",
-"name": "Australian Capital Territory",
-"col": 4,
-"row": 2,
-"w": 1,
-"h": 1
+"name": "Australian Capital Territory"
 },
 {
 "id": "vic",
 "abbr": "VIC",
-"name": "Victoria",
-"col": 3,
-"row": 2,
-"w": 1,
-"h": 1
+"name": "Victoria"
 },
 {
 "id": "tas",
 "abbr": "TAS",
-"name": "Tasmania",
-"col": 3,
-"row": 3,
-"w": 1,
-"h": 1
+"name": "Tasmania"
 }
-]
+],
+"svg": "assets/maps/australia.svg"
 }

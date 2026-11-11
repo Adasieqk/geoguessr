@@ -128,6 +128,15 @@ for f in sorted(glob.glob(os.path.join(RAW, 'gm', 'country__*.html'))):
         'flag': GEOMASTR + '/assets/media/flags/%s.png' % os.path.basename(f)[len('country__'):-5],
     }
 print('geomastr countries', len(gm))
+FLAG_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'assets', 'flags')
+def local_flag(code):
+    if not code: return None
+    cc = code.split('-')[0].lower()
+    if code.upper() in ('PT-MA', 'PT-AZ'): cc = 'pt'
+    return 'assets/flags/%s.svg' % cc if os.path.exists(os.path.join(FLAG_DIR, cc + '.svg')) else None
+for slug, q in gm.items():
+    lf = local_flag((guides.get(slug) or {}).get('code'))
+    if lf: q['flag'] = lf
 
 # driving side + phone code from continent / phone pages (by country name)
 drive = {}; phone = {}
@@ -270,7 +279,7 @@ for slug in all_slugs:
         conts = []
     country = {
         'slug': slug, 'name': name, 'code': g['code'] if g else None, 'continents': conts,
-        'hero': g['hero'] if g else None, 'updated': g['updated'] if g else None, 'flag': q['flag'] if q else None,
+        'hero': g['hero'] if g else None, 'updated': g['updated'] if g else None, 'flag': (q['flag'] if q else None) or local_flag(g['code'] if g else None),
         'drive': drive.get(name) or drive.get(q['name'] if q else ''), 'phone': phone.get(slug) or phone.get(name) or phone.get(q['name'] if q else ''),
         'gm': q, 'steps': g['steps'] if g else [], 'docs': g['docs'] if g else [],
         'lm': by_country.get(slug, []),
@@ -283,7 +292,7 @@ for slug in all_slugs:
     country['top'] = top
     slim = dict(country); slim['steps'] = [dict(s_, items=[{k: v for k, v in it.items() if k != 'raw'} for it in s_.get('items', [])]) if s_['kind'] == 'tips' else s_ for s_ in country['steps']]
     json.dump(slim, open(os.path.join(OUT, 'countries', slug + '.json'), 'w'), ensure_ascii=False, separators=(',', ':'))
-    index.append({'slug': slug, 'name': name, 'code': country['code'], 'continents': conts, 'flag': q['flag'] if q else None,
+    index.append({'slug': slug, 'name': name, 'code': country['code'], 'continents': conts, 'flag': (q['flag'] if q else None) or local_flag(g['code'] if g else None),
                   'drive': country['drive'], 'phone': country['phone'], 'hasGuide': bool(g), 'hasGm': bool(q),
                   'tips': sum(len([i for i in s.get('items', []) if i['k'] == 'tip']) for s in country['steps']), 'metas': len(country['lm'])})
 json.dump({'countries': index, 'continents': CONTINENTS}, open(os.path.join(OUT, 'index.json'), 'w'), ensure_ascii=False, separators=(',', ':'))
@@ -298,7 +307,7 @@ def tips_matching(slug, pattern):
     for s in g['steps']:
         if s['kind'] != 'tips': continue
         for it in s['items']:
-            if it['k'] == 'tip' and re.search(pattern, it['raw'], re.I): out.append({'img': it['img'], 'html': it['html'], 'step': s['title']})
+            if it['k'] == 'tip' and re.search(pattern, it['raw'], re.I): out.append({'img': it['img'], 'pk': it.get('pk_img'), 'html': it['html'], 'step': s['title']})
     return out
 TOPICS = {
     'bollards': (r'\bbollard', lambda q: q['bollards']),
@@ -328,7 +337,7 @@ for tid, (pat, gmfn) in TOPICS.items():
 os.makedirs(os.path.join(OUT, 'decks'), exist_ok=True)
 decks = []
 def add_deck(did, title, group, cards, desc=''):
-    cards = [c for c in cards if c.get('q')]
+    cards = [c for c in cards if c.get('q') or c.get('qtext') or c.get('pk')]
     if len(cards) < 4: return
     json.dump({'id': did, 'title': title, 'group': group, 'desc': desc, 'cards': cards}, open(os.path.join(OUT, 'decks', did + '.json'), 'w'), ensure_ascii=False, separators=(',', ':'))
     decks.append({'id': did, 'title': title, 'group': group, 'count': len(cards), 'desc': desc})
@@ -369,8 +378,8 @@ for slug, g in guides.items():
     for s in g['steps']:
         if s['kind'] != 'tips': continue
         for it in s['items']:
-            if it['k'] == 'tip' and it['img']:
-                cards.append({'q': [it['img']], 'a': g['name'], 'slug': slug, 'note': it['html'], 'step': s['title']})
+            if it['k'] == 'tip' and (it['img'] or it.get('pk_img')):
+                cards.append({'q': [it['img']] if it['img'] else [], 'pk': it.get('pk_img'), 'a': g['name'], 'slug': slug, 'note': it['html'], 'step': s['title']})
     add_deck('pk-' + slug, g['name'] + ' – all plonkit tips', 'Country', cards, 'Image → explanation (plonkit)')
     top = [c for c in cards if (c['step'] or '').lower().startswith('identifying')][:12]
     add_deck('pk-top-' + slug, g['name'] + ' – top identifiers', 'Country top', top, 'The key clues (plonkit step 1)')
@@ -382,8 +391,8 @@ for cont in CONTINENTS:
         if cont not in g['continents']: continue
         for s in g['steps']:
             if s['kind'] == 'tips' and (s['title'] or '').lower().startswith('identifying'):
-                for it in [i for i in s['items'] if i['k'] == 'tip' and i['img']][:10]:
-                    cards.append({'q': [it['img']], 'a': g['name'], 'slug': slug, 'note': it['html']})
+                for it in [i for i in s['items'] if i['k'] == 'tip' and (i['img'] or i.get('pk_img'))][:10]:
+                    cards.append({'q': [it['img']] if it['img'] else [], 'pk': it.get('pk_img'), 'a': g['name'], 'slug': slug, 'note': it['html']})
     add_deck('pk-which-' + cont.lower().replace(' ', '-'), f'Which country? – {cont} (plonkit)', cont, cards, 'Image → country, from each guide\'s key clues')
 
 json.dump(decks, open(os.path.join(OUT, 'decks', 'index.json'), 'w'), ensure_ascii=False, separators=(',', ':'))
@@ -402,6 +411,7 @@ if os.path.exists(src):
         for it in grp['items']:
             u = it.get('img') or ''
             if u.startswith(PLONKIT):
+                it['pk'] = u
                 if u in pk_map: it['img'] = pk_map[u]; swapped += 1
                 else:
                     q = gm.get(it['slug']) or {}; title = (grp['title'] + ' ' + grp['topic']).lower(); alt = None
