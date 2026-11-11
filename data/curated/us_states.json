@@ -1,0 +1,263 @@
+{
+"id": "us-states",
+"title": "USA \u2013 states",
+"svg": "assets/us.svg",
+"country": "united-states",
+"regions": [
+{
+"id": "al",
+"abbr": "AL",
+"name": "Alabama"
+},
+{
+"id": "ak",
+"abbr": "AK",
+"name": "Alaska"
+},
+{
+"id": "az",
+"abbr": "AZ",
+"name": "Arizona"
+},
+{
+"id": "ar",
+"abbr": "AR",
+"name": "Arkansas"
+},
+{
+"id": "ca",
+"abbr": "CA",
+"name": "California"
+},
+{
+"id": "co",
+"abbr": "CO",
+"name": "Colorado"
+},
+{
+"id": "ct",
+"abbr": "CT",
+"name": "Connecticut"
+},
+{
+"id": "de",
+"abbr": "DE",
+"name": "Delaware"
+},
+{
+"id": "fl",
+"abbr": "FL",
+"name": "Florida"
+},
+{
+"id": "ga",
+"abbr": "GA",
+"name": "Georgia"
+},
+{
+"id": "hi",
+"abbr": "HI",
+"name": "Hawaii"
+},
+{
+"id": "id",
+"abbr": "ID",
+"name": "Idaho"
+},
+{
+"id": "il",
+"abbr": "IL",
+"name": "Illinois"
+},
+{
+"id": "in",
+"abbr": "IN",
+"name": "Indiana"
+},
+{
+"id": "ia",
+"abbr": "IA",
+"name": "Iowa"
+},
+{
+"id": "ks",
+"abbr": "KS",
+"name": "Kansas"
+},
+{
+"id": "ky",
+"abbr": "KY",
+"name": "Kentucky"
+},
+{
+"id": "la",
+"abbr": "LA",
+"name": "Louisiana"
+},
+{
+"id": "me",
+"abbr": "ME",
+"name": "Maine"
+},
+{
+"id": "md",
+"abbr": "MD",
+"name": "Maryland"
+},
+{
+"id": "ma",
+"abbr": "MA",
+"name": "Massachusetts"
+},
+{
+"id": "mi",
+"abbr": "MI",
+"name": "Michigan"
+},
+{
+"id": "mn",
+"abbr": "MN",
+"name": "Minnesota"
+},
+{
+"id": "ms",
+"abbr": "MS",
+"name": "Mississippi"
+},
+{
+"id": "mo",
+"abbr": "MO",
+"name": "Missouri"
+},
+{
+"id": "mt",
+"abbr": "MT",
+"name": "Montana"
+},
+{
+"id": "ne",
+"abbr": "NE",
+"name": "Nebraska"
+},
+{
+"id": "nv",
+"abbr": "NV",
+"name": "Nevada"
+},
+{
+"id": "nh",
+"abbr": "NH",
+"name": "New Hampshire"
+},
+{
+"id": "nj",
+"abbr": "NJ",
+"name": "New Jersey"
+},
+{
+"id": "nm",
+"abbr": "NM",
+"name": "New Mexico"
+},
+{
+"id": "ny",
+"abbr": "NY",
+"name": "New York"
+},
+{
+"id": "nc",
+"abbr": "NC",
+"name": "North Carolina"
+},
+{
+"id": "nd",
+"abbr": "ND",
+"name": "North Dakota"
+},
+{
+"id": "oh",
+"abbr": "OH",
+"name": "Ohio"
+},
+{
+"id": "ok",
+"abbr": "OK",
+"name": "Oklahoma"
+},
+{
+"id": "or",
+"abbr": "OR",
+"name": "Oregon"
+},
+{
+"id": "pa",
+"abbr": "PA",
+"name": "Pennsylvania"
+},
+{
+"id": "ri",
+"abbr": "RI",
+"name": "Rhode Island"
+},
+{
+"id": "sc",
+"abbr": "SC",
+"name": "South Carolina"
+},
+{
+"id": "sd",
+"abbr": "SD",
+"name": "South Dakota"
+},
+{
+"id": "tn",
+"abbr": "TN",
+"name": "Tennessee"
+},
+{
+"id": "tx",
+"abbr": "TX",
+"name": "Texas"
+},
+{
+"id": "ut",
+"abbr": "UT",
+"name": "Utah"
+},
+{
+"id": "vt",
+"abbr": "VT",
+"name": "Vermont"
+},
+{
+"id": "va",
+"abbr": "VA",
+"name": "Virginia"
+},
+{
+"id": "wa",
+"abbr": "WA",
+"name": "Washington"
+},
+{
+"id": "wv",
+"abbr": "WV",
+"name": "West Virginia"
+},
+{
+"id": "wi",
+"abbr": "WI",
+"name": "Wisconsin"
+},
+{
+"id": "wy",
+"abbr": "WY",
+"name": "Wyoming"
+},
+{
+"id": "dc",
+"abbr": "DC",
+"name": "District of Columbia"
+}
+]
+}

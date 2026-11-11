@@ -1,0 +1,99 @@
+{
+"id": "indonesia",
+"title": "Indonesia – islands",
+"country": "indonesia",
+"cols": 8,
+"rows": 3,
+"regions": [
+{
+"id": "sum",
+"abbr": "SUM",
+"name": "Sumatra",
+"col": 0,
+"row": 0,
+"w": 2,
+"h": 2,
+"match": "Sumatra"
+},
+{
+"id": "kal",
+"abbr": "KAL",
+"name": "Kalimantan (Borneo)",
+"col": 2,
+"row": 0,
+"w": 2,
+"h": 2,
+"match": "Kalimantan"
+},
+{
+"id": "sul",
+"abbr": "SUL",
+"name": "Sulawesi",
+"col": 4,
+"row": 0,
+"w": 1,
+"h": 2,
+"match": "Sulawesi"
+},
+{
+"id": "mal",
+"abbr": "MAL",
+"name": "Maluku",
+"col": 5,
+"row": 1,
+"w": 1,
+"h": 1,
+"match": "Maluku"
+},
+{
+"id": "pap",
+"abbr": "PAP",
+"name": "Papua",
+"col": 6,
+"row": 0,
+"w": 2,
+"h": 2,
+"match": "Papua"
+},
+{
+"id": "jav",
+"abbr": "JAV",
+"name": "Java",
+"col": 1,
+"row": 2,
+"w": 2,
+"h": 1,
+"match": "Java"
+},
+{
+"id": "bal",
+"abbr": "BAL",
+"name": "Bali",
+"col": 3,
+"row": 2,
+"w": 1,
+"h": 1,
+"match": "Bali"
+},
+{
+"id": "ntb",
+"abbr": "NTB",
+"name": "Nusa Tenggara Barat (Lombok, Sumbawa)",
+"col": 4,
+"row": 2,
+"w": 1,
+"h": 1,
+"match": "Nusa"
+},
+{
+"id": "ntt",
+"abbr": "NTT",
+"name": "Nusa Tenggara Timur (Flores, Timor)",
+"col": 5,
+"row": 2,
+"w": 2,
+"h": 1,
+"match": "Nusa"
+}
+]
+}

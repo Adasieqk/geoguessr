@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0f172a">
+<title>GeoStudy</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌍</text></svg>">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#/">🌍 GeoStudy</a>
+  <div class="search-wrap">
+    <input id="search" type="search" placeholder="Search country, topic, deck…" autocomplete="off" spellcheck="false">
+    <div id="search-results" class="search-results" hidden></div>
+  </div>
+  <button class="menu-btn" id="menu-btn" aria-label="Menu">☰</button>
+  <nav class="nav" id="nav">
+    <a href="#/">Map</a>
+    <a href="#/continents">Continents</a>
+    <a href="#/topics">Topics</a>
+    <a href="#/confusables">Confusables</a>
+    <a href="#/decks">Flashcards</a>
+    <a href="#/quizzes">Map quizzes</a>
+    <a href="#/progress">Progress</a>
+  </nav>
+</header>
+<main id="app"><div class="loading">Loading…</div></main>
+<div id="lightbox" class="lightbox" hidden><img alt=""><div class="lb-cap"></div></div>
+<script src="assets/app.js"></script>
+<script src="assets/cards.js"></script>
+<script src="assets/quiz.js"></script>
+</body>
+</html>
