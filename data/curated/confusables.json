@@ -1,0 +1,804 @@
+[
+{
+"topic": "bollards",
+"title": "Poland vs Turkey vs Australia vs Romania vs New Zealand – white bollard with a red reflector",
+"countries": [
+"poland",
+"turkey",
+"australia",
+"romania",
+"new-zealand",
+"ukraine"
+],
+"intro": "All are plain white posts with a red reflector on the front. The difference is <b>what the red does</b>: wraps around, stays on the front only, or stops halfway – and what is on the back.",
+"items": [
+{
+"slug": "poland",
+"img": "https://learnablemeta.com/images/768/0n7Q9MsbMC09U3NcEN4RGn3GwUR2p0pDAux5.avif",
+"note": "Red <b>strip wraps all the way around</b>; red reflector front, <b>white reflector on the back</b>. Often a number on it. Also a thinner curved version. (Same design only in Zakarpattia, Ukraine.)",
+"pk": "https://www.plonkit.net/images/poland/Poland-bollard.png"
+},
+{
+"slug": "turkey",
+"img": "https://learnablemeta.com/images/665/HwlqrrQpjmDeTWSTDLyIL5nSfud3H0TFS2l9.avif",
+"note": "<b>Rectangular, flat</b> (thin from the side), red reflector <b>only on the front</b>, <b>nothing on the back</b>. Rare yellow version in snowy areas.",
+"pk": "https://www.plonkit.net/images/turkey/tr_bollard.png"
+},
+{
+"slug": "australia",
+"img": "https://learnablemeta.com/images/621/zwJge48ZtDjq6rWlT5KXNiOV8PpFTzXNg7Bg.avif",
+"note": "Red reflector on the front that <b>stops in the middle</b> of the post, <b>grey reflector on the back</b>. If unsure: sun position, landscape, vegetation.",
+"pk": "https://www.plonkit.net/images/australia/Australian_bollard.png"
+},
+{
+"slug": "romania",
+"img": "https://learnablemeta.com/images/739/xA97z6eGLLxXdr6pyrXUtnzP7FR5MLCOdhRK.avif",
+"note": "Thin white post with a <b>red vertical strip near the top</b> – looks like Turkey, but bollards are <b>rare</b> in Romania.",
+"pk": "https://www.plonkit.net/images/romania/ro_bollard.png"
+},
+{
+"slug": "new-zealand",
+"img": "https://geomastr.com/assets/media/bollards/newzealand.jpg",
+"note": "Like Australia but the red reflector <b>wraps around to the back</b> (goes end to end) instead of stopping in the middle."
+}
+],
+"tip": "Back of the bollard: white = Poland, grey = Australia, red continuing = NZ, nothing = Turkey/Romania."
+},
+{
+"topic": "bollards",
+"title": "Austria vs Slovenia vs Montenegro vs Serbia vs Germany vs Switzerland – black top, grey/red reflector",
+"countries": [
+"austria",
+"slovenia",
+"montenegro",
+"serbia",
+"germany",
+"switzerland",
+"liechtenstein"
+],
+"intro": "Central-European family: white wedge, black top, small reflector. Reflector <b>colour</b> and <b>position</b> decide.",
+"items": [
+{
+"slug": "austria",
+"img": "https://learnablemeta.com/images/768/biDHzggA2NNkqpA4Uyh9GQPycMjYeasTkge4.avif",
+"note": "White, black top, reflector <b>dark red or dark grey</b>; often a small nipple-shaped black cap and sometimes a snow pole on top.",
+"pk": "https://www.plonkit.net/images/austria/Austria_or_Slovenia.png"
+},
+{
+"slug": "slovenia",
+"img": "https://learnablemeta.com/images/847/MleSPE6rFn3cj2t6RqVEp9pbA67nSRcH03lB.avif",
+"note": "Same shape as Austria but reflector is <b>bright red</b> on the front and <b>white on the back</b> (Austria: dark/grey back).",
+"pk": "https://www.plonkit.net/images/slovenia/si_bollard.png"
+},
+{
+"slug": "montenegro",
+"img": "https://geomastr.com/assets/media/bollards/montenegro.jpg",
+"note": "Very similar to Slovenia: red front, white back. Decide by landscape/language (Cyrillic/Latin mix, ‑ić names)."
+},
+{
+"slug": "serbia",
+"img": "https://learnablemeta.com/images/768/ykaW35vneNpSpw6lpFCodzma6wMu8TgMv5Sz.avif",
+"note": "Several designs but reflector is <b>always off-centre</b>; bollards are flat with no depth.",
+"pk": "https://www.plonkit.net/images/serbia/bollard.png"
+},
+{
+"slug": "germany",
+"img": "https://learnablemeta.com/images/768/6pjx1TnkVh2YmS1wZKjxjQx8hVVZPOs71Njd.avif",
+"note": "Black-and-white with <b>white / light-grey</b> reflectors (orange at intersections), often road-number plates and blue side attachments; one every ~50 m.",
+"pk": "https://www.plonkit.net/images/germany/Germany_Bollard_v2.png"
+},
+{
+"slug": "switzerland",
+"img": "https://learnablemeta.com/images/847/CBjYqZaLpCT4sg7iVxATfdmDZghTIgnjRe8i.avif",
+"note": "Black-and-white, white or grey reflectors; wedge-shaped <b>or cylindrical with a rounded top</b>. Liechtenstein uses the same round ones.",
+"pk": "https://www.plonkit.net/images/switzerland/ch_bollard.png"
+}
+],
+"tip": "Bright red front + white back → Slovenia/Montenegro. Dark red/grey → Austria. Grey only → Germany/Switzerland. Off-centre → Serbia."
+},
+{
+"topic": "bollards",
+"title": "Czechia vs Slovakia – identical bollards, so look elsewhere",
+"countries": [
+"czechia",
+"slovakia"
+],
+"intro": "Both use <b>orange double reflectors</b> on the front and one white on the back, the same wide type‑B guardrails, paired round concrete poles and red/white temporary sign posts. Split them with signs:",
+"items": [
+{
+"slug": "czechia",
+"img": "https://learnablemeta.com/images/768/jOR1nQ4ATXxm1lXM4T6qmuVOIJmAyWeIWRWi.avif",
+"note": "<b>Arrow-shaped</b> directional signs with a filled tip; sign borders are <b>separated from the edge</b>; thick black sign-post caps; bright <b>red street signs</b>.",
+"pk": "https://www.plonkit.net/images/czechia/cz_directionalsigns.png"
+},
+{
+"slug": "slovakia",
+"img": "https://learnablemeta.com/images/768/gas70GcWjkEzDWYf9A9FbDpNHRbXBeTd1bFG.avif",
+"note": "Blue directional signs with <b>small white arrows</b>; borders usually on the edge; white street signs with blue text and thin red border; word <b>ulica</b>; small signs often on <b>double posts</b>; more wooden poles.",
+"pk": "https://www.plonkit.net/images/slovakia/sk_directionalsigns.png"
+}
+],
+"tip": "Street name with “ulica” = Slovakia (never in Czechia)."
+},
+{
+"topic": "bollards",
+"title": "Hungary vs Croatia vs Bulgaria vs Lithuania – wedge with a black band",
+"countries": [
+"hungary",
+"croatia",
+"bulgaria",
+"lithuania",
+"north-macedonia"
+],
+"intro": "Generic ‘wedge + reflector’ bollards. Hungary and Croatia are the real 50/50.",
+"items": [
+{
+"slug": "hungary",
+"img": "https://learnablemeta.com/images/768/8rcM4lCbTUC09xO1RZcSerbk49fZyQHzcgYj.avif",
+"note": "Black-and-white wedge, <b>red</b> front reflector, white back; blue reflectors also common. More <b>rounded</b> edges; reflector sits a bit lower than Croatia.",
+"pk": "https://www.plonkit.net/images/hungary/hu_bollard.png"
+},
+{
+"slug": "croatia",
+"img": "https://learnablemeta.com/images/847/D0Cerh41VRmjycAmciCOna0yKJRsUbcIar5E.avif",
+"note": "White with a black rectangle, red or white reflector; <b>triangular from the top</b>, <b>sharper edges</b>; the reflector is <b>closer to the top</b> and bollards look thinner.",
+"pk": "https://www.plonkit.net/images/croatia/Croatia_bollard.png"
+},
+{
+"slug": "bulgaria",
+"img": "https://learnablemeta.com/images/739/4WNJLDrpgFAQdjObHMc1M9eczKFrO3vN8dQ1.avif",
+"note": "Similar generic design but bollards are <b>fairly rare</b>; red front, white back; inconsistent shapes.",
+"pk": "https://www.plonkit.net/images/bulgaria/Bollard.png"
+},
+{
+"slug": "lithuania",
+"img": "https://learnablemeta.com/images/768/ElE70o4ZW5pUkWQMG9ZnhoS3VhzYHf9yQz49.avif",
+"note": "Wedge-shaped with <b>orange</b> rectangular front reflector and white rectangular back reflector.",
+"pk": "https://www.plonkit.net/images/lithuania/Bollard.png"
+}
+],
+"tip": "Orange reflector → Lithuania. Rounded + low reflector → Hungary. Sharp + high reflector → Croatia."
+},
+{
+"topic": "bollards",
+"title": "Nordics & Baltics – black-and-white bollards",
+"countries": [
+"sweden",
+"norway",
+"finland",
+"estonia",
+"latvia",
+"lithuania",
+"denmark",
+"iceland"
+],
+"intro": "Plonkit's own infographic sums it up; below are the single-country pictures.",
+"items": [
+{
+"slug": "finland",
+"img": "https://learnablemeta.com/images/768/PHMFimX7WagKIdPgtIxEF8qnXD1JVdkcNAsI.avif",
+"note": "Finland (plonkit's Nordic/Baltic bollard infographic is on the Finland page): long black-and-white, white rectangular front reflector, two dots on the back, black strip diagonal; round or thin-curved.",
+"pk": "https://www.plonkit.net/images/finland/nordics_bollards.png"
+},
+{
+"slug": "sweden",
+"img": "https://learnablemeta.com/images/768/QI3IN8Z9DlIAS12nRqjF0odhHduQZqry1toL.avif",
+"note": "Black-and-white, usually <b>grey</b> reflector (orange at intersections); wedge, round or thin-curved. Black strip is straight on the baton type.",
+"pk": "https://www.plonkit.net/images/sweden/pollare.png"
+},
+{
+"slug": "norway",
+"img": "https://learnablemeta.com/images/768/pww3tBQqNRxyy7N3KQJ2igiu38ao5AtNEGMu.avif",
+"note": "Thin, curved rectangle; silver reflector <b>inside a black parallelogram</b>; narrow and flat.",
+"pk": "https://www.plonkit.net/images/norway/no_bollard.png"
+},
+{
+"slug": "estonia",
+"img": "https://learnablemeta.com/images/768/pjqKE0jiI88dCjo71ASNV9uLAC0eiEW22sum.avif",
+"note": "<b>Round, baton-like</b>; rectangular front reflector, two circular back reflectors (white or orange).",
+"pk": "https://www.plonkit.net/images/estonia/Estonian_bollards.png"
+},
+{
+"slug": "latvia",
+"img": "https://learnablemeta.com/images/768/sGHi4IHfXfm7p1BKo2AEonrSo6FOVQjOKeWA.avif",
+"note": "<b>Thin, slightly curved</b>; rectangular front, two circular back reflectors; black strip slightly angled; often numbered.",
+"pk": "https://www.plonkit.net/images/latvia/Bollard.png"
+},
+{
+"slug": "denmark",
+"img": "https://learnablemeta.com/images/768/gMyP4L3emFyQloYQuxqVKG4irIvK45nhl4nh.avif",
+"note": "Unique: white with a <b>yellow reflector and dark orange stripe</b> (green variant exists).",
+"pk": "https://www.plonkit.net/images/denmark/Bollard.png"
+},
+{
+"slug": "iceland",
+"img": "https://geomastr.com/assets/media/bollards/iceland.jpg",
+"note": "Unique <b>yellow</b> bollards with a white reflector, everywhere on rural roads."
+}
+],
+"tip": "Yellow → Iceland. Orange stripe → Denmark. Parallelogram → Norway. Baton round → Estonia; thin curved → Latvia; wedge+orange → Lithuania."
+},
+{
+"topic": "bollards",
+"title": "Denmark vs Belgium vs Netherlands",
+"countries": [
+"denmark",
+"belgium",
+"netherlands"
+],
+"items": [
+{
+"slug": "denmark",
+"img": "https://learnablemeta.com/images/768/gMyP4L3emFyQloYQuxqVKG4irIvK45nhl4nh.avif",
+"note": "Yellow reflector + <b>dark orange stripe</b> at the top.",
+"pk": "https://www.plonkit.net/images/denmark/Bollard.png"
+},
+{
+"slug": "belgium",
+"img": "https://learnablemeta.com/images/847/cQ2pj95vEigfwLPzakGIo8xAd0guanX4xj3W.avif",
+"note": "White with a <b>yellow rectangular</b> reflector on the front, white on the back; <b>never</b> an orange stripe. Second type: dark brown with two red stripes (also NL).",
+"pk": "https://www.plonkit.net/images/belgium/Belgium_Bollards.png"
+},
+{
+"slug": "netherlands",
+"img": "https://learnablemeta.com/images/847/ABiB7Hh3VsN3vuEFoZVX6Bwu1qiCFBuY24WJ.avif",
+"note": "Simple white (or black) bollard with a <b>red</b> reflector. Rare French-style round ones whose red band does not go all the way round.",
+"pk": "https://www.plonkit.net/images/netherlands/Dutch_bollard.png"
+}
+]
+},
+{
+"topic": "bollards",
+"title": "France vs Scotland (UK) – round post with a band",
+"countries": [
+"france",
+"united-kingdom"
+],
+"items": [
+{
+"slug": "france",
+"img": "https://learnablemeta.com/images/847/CSfyHM96curGbLyTidtRl4Yg3Mvzs9Iji7Pe.avif",
+"note": "Round white post with a <b>pointed top</b> and a grey or red band all the way around. Also: round bollard with two indented bands (unique), and wedge with wide white reflectors.",
+"pk": "https://www.plonkit.net/images/france/Bollard.png"
+},
+{
+"slug": "united-kingdom",
+"img": "https://learnablemeta.com/images/847/TibW7a3QZVE2PLFvZCCDhIoA7hF7JeFSg9pi.avif",
+"note": "Standard UK: rounded, red front / white back, black base and top, white stripe. Scottish red-and-white round bollard looks French but has a <b>blunt top</b>.",
+"pk": "https://www.plonkit.net/images/united-kingdom/Bollard.png"
+}
+]
+},
+{
+"topic": "bollards",
+"title": "Italy vs Albania · Greece vs Andorra",
+"countries": [
+"italy",
+"albania",
+"greece",
+"andorra"
+],
+"items": [
+{
+"slug": "italy",
+"img": "https://learnablemeta.com/images/847/6POnLBHVQJSPlRFOtzYEIBHNZYDusLBoLBaW.avif",
+"note": "Triangular, white with <b>black top</b>, red front / white back. <b>Albania uses the same bollard</b> – decide by language, plates, poles.",
+"pk": "https://www.plonkit.net/images/italy/it_bollard.png"
+},
+{
+"slug": "albania",
+"img": "https://geomastr.com/assets/media/bollards/albania.jpg",
+"note": "Same as Italy. Albania: much poorer roads, Albanian language (ë, ç), red plates strip AL."
+},
+{
+"slug": "greece",
+"img": "https://learnablemeta.com/images/768/N5Wn4UGKzQc7gzpdRosPu9v1APIQJwi6bBW0.avif",
+"note": "Wedge with <b>almost square</b> reflectors, red front / white back.",
+"pk": "https://www.plonkit.net/images/greece/gr_bollard.png"
+},
+{
+"slug": "andorra",
+"img": "https://geomastr.com/assets/media/bollards/andorra.jpg",
+"note": "Similar wedge to Greece (and to Spain near the border) but mountainous Pyrenees landscape, Catalan."
+}
+]
+},
+{
+"topic": "bollards",
+"title": "Spain vs Portugal vs Chile – yellow-orange reflector",
+"countries": [
+"spain",
+"portugal",
+"chile"
+],
+"items": [
+{
+"slug": "spain",
+"img": "https://learnablemeta.com/images/847/tGSNvEFZ5tKN6ypcD1K0fXw9HzpzWv71zACZ.avif",
+"note": "<b>Yellow-orange</b> reflector on the front, two white dots on the back (or blank), typically hollow. Extremadura: green tops; Aragón: flat stick with grey reflectors.",
+"pk": "https://www.plonkit.net/images/spain/Spain_bollards.png"
+},
+{
+"slug": "portugal",
+"img": "https://learnablemeta.com/images/847/wHW5bY3wG3IEGczR5IFuQjbuzjvInJweoKYR.avif",
+"note": "Wedge with a noticeably <b>thin white top</b>, or flat with a wide reflector; mostly <b>white</b> reflectors, sometimes darker orange. Guardrails: <b>red</b> reflectors (Spain: yellow).",
+"pk": "https://www.plonkit.net/images/portugal/bollard.png"
+},
+{
+"slug": "chile",
+"img": "https://learnablemeta.com/images/739/OfibAGNqSm0SoJW4ikiRrwo4uxOnJtzGYEOE.avif",
+"note": "Spanish-style but <b>white front / yellow-orange back</b>; not common. Orange temporary bollard with two white stripes.",
+"pk": "https://www.plonkit.net/images/chile/bollard.png"
+}
+]
+},
+{
+"topic": "signs",
+"title": "Chevron colours in Europe",
+"countries": [
+"poland",
+"lithuania",
+"latvia",
+"estonia",
+"russia",
+"ukraine",
+"italy",
+"greece",
+"spain",
+"france",
+"finland",
+"norway",
+"sweden",
+"portugal",
+"serbia",
+"slovenia",
+"bulgaria",
+"romania",
+"turkey"
+],
+"intro": "Chevrons are one of the quickest splits. Learn the colour families:",
+"items": [
+{
+"slug": "bulgaria",
+"img": "https://learnablemeta.com/images/914/7ybLeGz64HmYZJKcNl6L483hG5I02DuGxR3F.avif",
+"note": "Bulgaria: <b>red on white</b> (same as Romania, Turkey, N. Macedonia). Plonkit has a full European chevron infographic on the Bulgaria page.",
+"pk": "https://www.plonkit.net/images/bulgaria/eu_chevrons.png"
+},
+{
+"slug": "lithuania",
+"img": "https://learnablemeta.com/images/768/So0mS9pPDVEhE2f4orEg0zc7KlmJcsGHNSbj.avif",
+"note": "<b>White with red arrows</b>: Poland, Lithuania (red outline on singles), Latvia, Belgium, Netherlands, Bulgaria, Romania, Turkey, N. Macedonia, Hungary…",
+"pk": "https://www.plonkit.net/images/lithuania/Chevron_Lithuania.png"
+},
+{
+"slug": "estonia",
+"img": "https://learnablemeta.com/images/768/lhsGAuFQW2SaczPN2DPQ9ekMyJovCLM4G90E.avif",
+"note": "<b>Red with white arrows</b>: Estonia, Russia, Ukraine.",
+"pk": "https://www.plonkit.net/images/estonia/Chevron.png"
+},
+{
+"slug": "italy",
+"img": "https://learnablemeta.com/images/847/m40Pi9DpQYlz06djWq5ADE5vzVMnGwrLO0wz.avif",
+"note": "<b>Black with white arrows</b>: Italy, Greece, Albania, UK; Spain too but almost always 2 or 4 arrows.",
+"pk": "https://www.plonkit.net/images/italy/it_chevron.png"
+},
+{
+"slug": "spain",
+"img": "https://learnablemeta.com/images/914/xcklkeVvCL50NfRosNahHRcXzrZxxmFlqzuf.avif",
+"note": "Spain: black/white <b>or blue/white</b>; France is the only other country with blue/white. Portugal: black with <b>yellow</b> arrows.",
+"pk": "https://www.plonkit.net/images/spain/Chevrons.png"
+},
+{
+"slug": "finland",
+"img": "https://learnablemeta.com/images/914/WNl1JTKhHfkrIKDhHEwRyz0VS92M8JQk3fjR.avif",
+"note": "<b>Black with yellow arrows</b>: Finland, Norway, Iceland. Sweden: unique <b>blue and yellow</b>.",
+"pk": "https://www.plonkit.net/images/finland/Untitled_design2.png"
+},
+{
+"slug": "serbia",
+"img": "https://learnablemeta.com/images/768/ZCXW4Hct6al71uQ4DVCRtYMGI6QJPlenu06y.avif",
+"note": "<b>Black arrow on white</b>: Serbia, Slovenia (also red on white), Montenegro, N. Macedonia.",
+"pk": "https://www.plonkit.net/images/serbia/Screenshot_2023-07-01_160357.png"
+}
+]
+},
+{
+"topic": "signs",
+"title": "Chevrons in the Americas",
+"countries": [
+"chile",
+"argentina",
+"uruguay",
+"ecuador",
+"brazil",
+"mexico"
+],
+"items": [
+{
+"slug": "chile",
+"img": "https://geomastr.com/assets/media/streetsigns/chevrons/chile_1.svg",
+"note": "<b>Yellow base, black arrows</b> – like most of Latin America.",
+"pk": "https://www.plonkit.net/images/chile/Chile%20Chevron.png"
+},
+{
+"slug": "argentina",
+"img": "https://geomastr.com/assets/media/bollards/argentina.jpg",
+"note": "Argentina uniquely uses <b>white with red arrows</b>."
+},
+{
+"slug": "uruguay",
+"img": "https://learnablemeta.com/images/914/4bj2Sk5ETtvnQaLUgn1WzFiSVgOtpUbxzAaa.avif",
+"note": "Yellow with black arrows – mainly useful against Argentina.",
+"pk": "https://www.plonkit.net/images/uruguay/Chevron.png"
+},
+{
+"slug": "ecuador",
+"img": "https://learnablemeta.com/images/611/qvTYRIWLtSZy5TM70bWiQBIZ8MvKsxtOqaXS.avif",
+"note": "“Chevron spam” in curves – far more chevrons than neighbours (Colombia occasionally too).",
+"pk": "https://www.plonkit.net/images/ecuador/Chevron_spam2.png"
+}
+]
+},
+{
+"topic": "signs",
+"title": "Pedestrian crossing signs – stripes and belts",
+"countries": [
+"hungary",
+"croatia",
+"slovakia",
+"slovenia",
+"germany",
+"austria",
+"belgium",
+"lithuania",
+"estonia",
+"russia",
+"ukraine",
+"finland",
+"sweden",
+"norway",
+"latvia"
+],
+"items": [
+{
+"slug": "hungary",
+"img": "https://geomastr.com/assets/media/streetsigns/pedestrians/hungary.svg",
+"note": "5 stripes, person with a belt sitting <b>noticeably low</b> (“sagging pants”) – unique to Hungary.",
+"pk": "https://www.plonkit.net/images/hungary/hu_pedestriansign.png"
+},
+{
+"slug": "croatia",
+"img": "https://geomastr.com/assets/media/streetsigns/pedestrians/croatia.svg",
+"note": "5 stripes, <b>belt</b> at normal height. Slovenia's person has <b>no belt</b>.",
+"pk": "https://www.plonkit.net/images/croatia/Pedestrian_sign_2.png"
+},
+{
+"slug": "slovakia",
+"img": "https://geomastr.com/assets/media/streetsigns/pedestrians/slovakia.svg",
+"note": "5 stripes with belt (same as Germany), or stripes very close together.",
+"pk": "https://www.plonkit.net/images/slovakia/sk_pedestriansign.png"
+},
+{
+"slug": "slovenia",
+"img": "https://geomastr.com/assets/media/streetsigns/pedestrians/slovenia.svg",
+"note": "5 stripes, simply drawn person, <b>no belt</b>. Austria: two dotted lines instead of stripes.",
+"pk": "https://www.plonkit.net/images/slovenia/si_pedestriansign.png"
+},
+{
+"slug": "belgium",
+"img": "https://geomastr.com/assets/media/streetsigns/pedestrians/belgium.svg",
+"note": "No stripes, <b>two horizontal dotted lines</b>, square-headed man. France/NL: regular zebra with 5 stripes.",
+"pk": "https://www.plonkit.net/images/belgium/Ontwerp_zonder_titel_10.png"
+},
+{
+"slug": "estonia",
+"img": "https://geomastr.com/assets/media/streetsigns/pedestrians/estonia.svg",
+"note": "<b>3 stripes</b>, detailed person (shoes, attached head). Lithuania/Russia/Ukraine also 3 stripes but simpler person; Russia often yellow border. Latvia: 5 stripes.",
+"pk": "https://www.plonkit.net/images/estonia/Pedestrian_sign_Estonia.png"
+},
+{
+"slug": "finland",
+"img": "https://geomastr.com/assets/media/streetsigns/pedestrians/finland.svg",
+"note": "Finland 5 stripes; Sweden and Norway usually <b>4</b>.",
+"pk": "https://www.plonkit.net/images/finland/FInland_Pedestrian_Signs.png"
+}
+]
+},
+{
+"topic": "signs",
+"title": "Stop signs: Spain vs Portugal · ALTO vs PARE",
+"countries": [
+"spain",
+"portugal",
+"mexico",
+"guatemala",
+"brazil",
+"argentina"
+],
+"items": [
+{
+"slug": "spain",
+"img": "https://learnablemeta.com/images/847/0439RXr8nWaZwctUpKOwEbwGM8ZSq4eV7Tai.avif",
+"note": "Small, compact font. Red borders go to the edge (no white rim), flat sign posts.",
+"pk": "https://www.plonkit.net/images/spain/Spain_stop_sign.png"
+},
+{
+"slug": "portugal",
+"img": "https://learnablemeta.com/images/847/KgczVAMHn25AHkn7wr57QQT75rmFr2H6S8Yi.avif",
+"note": "Noticeably <b>larger</b> font; thin white rim on red-bordered signs.",
+"pk": "https://www.plonkit.net/images/portugal/stopsign.png"
+},
+{
+"slug": "mexico",
+"img": "https://learnablemeta.com/images/620/zMyGgTwPd4Z9DjC7GyQm0iHZuTTUmc7APFxn.avif",
+"note": "<b>ALTO</b>: Mexico, Guatemala, Panama, Costa Rica. <b>PARE</b>: all of South America and Puerto Rico.",
+"pk": "https://www.plonkit.net/images/mexico/mx_alto.png"
+}
+]
+},
+{
+"topic": "signs",
+"title": "Guardrails that split neighbours",
+"countries": [
+"peru",
+"bolivia",
+"argentina",
+"uruguay",
+"czechia",
+"slovakia",
+"poland",
+"lithuania",
+"latvia",
+"estonia",
+"portugal",
+"spain",
+"norway"
+],
+"items": [
+{
+"slug": "peru",
+"img": "https://learnablemeta.com/images/611/JvFk2k7cRBnMRIzclqn4YlyVG677RP06nJsV.avif",
+"note": "Black-and-yellow stripes with a <b>black outer stripe</b>. Bolivia: same but <b>yellow outer</b> stripe. Peru also uses zebra sign posts, Bolivia bulky white square posts.",
+"pk": "https://www.plonkit.net/images/peru/1.guardrailmarking.png"
+},
+{
+"slug": "argentina",
+"img": null,
+"note": "Yellow/red rectangular reflectors – also in Uruguay. Argentine supports are 3 sides of a rectangle; Uruguay adds bits of the 4th side at the corners.",
+"pk": "https://www.plonkit.net/images/argentina/Copy_of_Copy_of_Untitled_286_29.png"
+},
+{
+"slug": "czechia",
+"img": "https://learnablemeta.com/images/768/pcv4vWhi4IaDfwCXjt1Hiwghs0KNGxyilEro.avif",
+"note": "Plonkit has a European guardrail infographic on the Czechia page. CZ/SK: extra-wide type B. Poland: square B with round red reflectors. Lithuania: A with orange, Latvia red/white, Estonia none, Portugal red, Spain yellow, Norway wooden posts.",
+"pk": "https://www.plonkit.net/images/czechia/europeguardrail.png"
+}
+]
+},
+{
+"topic": "road-lines",
+"title": "Nordic road lines",
+"countries": [
+"sweden",
+"norway",
+"finland",
+"denmark"
+],
+"items": [
+{
+"slug": "sweden",
+"img": "https://learnablemeta.com/images/768/AAHoqNDoAvdqU5LOmgnaaoZOl0iDyqCXTuoY.avif",
+"note": "<b>All white</b>. Small roads: short dashed outer lines; highways: outer line split into small sections.",
+"pk": "https://www.plonkit.net/images/sweden/vaglinje_liten.png"
+},
+{
+"slug": "norway",
+"img": "https://learnablemeta.com/images/768/ZyDUFnd5gDvCoZlj9M2uEl9lN6XysEz5ocQg.avif",
+"note": "<b>Yellow middle lines</b> with an orange tinge; small roads have <b>long dashed</b> white outer lines.",
+"pk": "https://www.plonkit.net/images/norway/no_roadlines.png"
+},
+{
+"slug": "finland",
+"img": "https://learnablemeta.com/images/768/ZUcCbtfxLiTDhlyxDsQBsRC0KmSGVvci2dZY.avif",
+"note": "Outer lines always <b>solid</b> white (no dashes, except Åland); middle: white dashes, or yellow (being phased out).",
+"pk": "https://www.plonkit.net/images/finland/Finland_road_lines_comp_2.png"
+}
+]
+},
+{
+"topic": "road-lines",
+"title": "Chile vs Argentina vs Bolivia vs Uruguay",
+"countries": [
+"chile",
+"argentina",
+"bolivia",
+"uruguay"
+],
+"items": [
+{
+"slug": "chile",
+"img": "https://learnablemeta.com/images/863/0YYtqlRPiBHI2jkcDAYfEX6LvyvXTd7CNq6u.avif",
+"note": "Either <b>all white</b> or <b>all yellow</b> (parks/snow) – almost never mixed.",
+"pk": "https://www.plonkit.net/images/chile/road_lines.png"
+},
+{
+"slug": "bolivia",
+"img": null,
+"note": "Middle lines yellow, yellow+white, or white; outer always white. Mixed combos common (unlike Chile).",
+"pk": "https://www.plonkit.net/images/bolivia/1_roadlines.png"
+},
+{
+"slug": "uruguay",
+"img": "https://learnablemeta.com/images/611/2ChugyjfQGNnGpaP2jtcYQyqJzigEMnsMYcw.avif",
+"note": "Yellow-white also in Argentina; Argentina also has a lot of all-white roads. Uruguay: smudgy camera, plain white plates.",
+"pk": "https://www.plonkit.net/images/uruguay/Other_road_lines.png"
+}
+]
+},
+{
+"topic": "road-lines",
+"title": "USA vs Canada",
+"countries": [
+"united-states",
+"canada"
+],
+"items": [
+{
+"slug": "united-states",
+"img": "https://learnablemeta.com/images/620/DkuXtDzkJmxWajeO93pzjQtwKCwD2SW1Mxc4.avif",
+"note": "Yellow middle (double most common) + white outer. “SPEED LIMIT”, wordy signs, rectangular junction signs, miles/feet, American spelling; Gen 2 rare (except Alaska).",
+"pk": "https://www.plonkit.net/images/united-states/road_lines.png"
+},
+{
+"slug": "canada",
+"img": null,
+"note": "“MAXIMUM” on speed signs, km/h, British spelling, diamond junction signs, blank railway crossings; more Gen 2/3 coverage; double middle lines less common.",
+"pk": "https://www.plonkit.net/images/united-states/speedsign.png"
+}
+]
+},
+{
+"topic": "language",
+"title": "Cyrillic: Ukraine vs Russia · Baltic alphabets",
+"countries": [
+"ukraine",
+"russia",
+"lithuania",
+"latvia",
+"estonia",
+"bulgaria"
+],
+"items": [
+{
+"slug": "ukraine",
+"img": "https://geomastr.com/assets/media/languages/ukrainian.png",
+"note": "Unique: <b>Є є, Ґ ґ, І і, Ї ї</b>. Plates: blue-yellow strip (Russia: plain white). Chevrons red/white in both.",
+"pk": "https://www.plonkit.net/images/ukraine/Ukrainian_language.png"
+},
+{
+"slug": "russia",
+"img": "https://geomastr.com/assets/media/languages/russian.png",
+"note": "<b>Ы, Э, Ё, Ъ</b>. Square concrete poles in both; Russian pedestrian signs often yellow-bordered.",
+"pk": "https://www.plonkit.net/images/russia/cyrillic.png"
+},
+{
+"slug": "lithuania",
+"img": "https://geomastr.com/assets/media/languages/lithuanian.png",
+"note": "<b>Ą Ę Į Ų, Ė, Y</b>; street = <b>gatvė (g.)</b>.",
+"pk": "https://www.plonkit.net/images/lithuania/Lithuanian_language.png"
+},
+{
+"slug": "latvia",
+"img": "https://geomastr.com/assets/media/languages/latin.png",
+"note": "Macrons <b>Ā Ē Ī Ū</b>, hooks <b>Ģ Ķ Ļ Ņ</b>; street = iela.",
+"pk": "https://www.plonkit.net/images/latvia/Latvian_language.png"
+},
+{
+"slug": "estonia",
+"img": "https://geomastr.com/assets/media/languages/estonian.png",
+"note": "<b>Ä Ö Ü Õ</b>, looks like Finnish (double vowels); street = tee/tänav.",
+"pk": "https://www.plonkit.net/images/estonia/Estonian_language.png"
+}
+]
+},
+{
+"topic": "poles",
+"title": "Pole families that are easy to mix",
+"countries": [
+"ukraine",
+"russia",
+"lithuania",
+"czechia",
+"slovakia",
+"portugal",
+"spain",
+"france",
+"sweden",
+"norway",
+"finland",
+"estonia",
+"united-states",
+"canada",
+"belgium"
+],
+"items": [
+{
+"slug": "ukraine",
+"img": "https://learnablemeta.com/images/306/QkulUc8nN6GrtEiolu834PmdkUVQR3cbsW7P.avif",
+"note": "<b>Square concrete</b> poles = post-Soviet (Ukraine, Russia, Lithuania, Estonia, Georgia, Kazakhstan, Kyrgyzstan).",
+"pk": "https://www.plonkit.net/images/ukraine/Square_pole.png"
+},
+{
+"slug": "czechia",
+"img": "https://learnablemeta.com/images/768/F0gq89SRELz4Ix3PHDp3cMDD7nv8k2WQrV9u.avif",
+"note": "Wide round concrete poles <b>in pairs</b> = Czechia/Slovakia. Upside-down triangle pole-top support also in DE, AL, RS, RO.",
+"pk": "https://www.plonkit.net/images/czechia/cz_doublepole.png"
+},
+{
+"slug": "portugal",
+"img": "https://learnablemeta.com/images/847/8xBODUItcS13G579vmqMDyK36nbVChonisR7.avif",
+"note": "Concrete ladder poles with <b>tall</b> steps = Portugal; Spain and France have ladder poles with <b>short</b> steps.",
+"pk": "https://www.plonkit.net/images/portugal/ladderpole.png"
+},
+{
+"slug": "sweden",
+"img": "https://learnablemeta.com/images/95/4NgXxCRqa5cu2QdZ7T3iA0OXXZsYThwdrK8I.avif",
+"note": "Wooden pole with a small <b>black metal cap</b> = Nordics (+ Estonia, sometimes Latvia). Lamp mount: Sweden double bolt below top, Finland double bolt at top & straight, Norway thick single bolt.",
+"pk": "https://www.plonkit.net/images/sweden/elstolpe.png"
+},
+{
+"slug": "united-states",
+"img": "https://learnablemeta.com/images/55/03RJb3qMqUAhwonGgGdX0G4LRaXi3Mlj0I8f.avif",
+"note": "North America: wooden poles, <b>large metal cylinder transformers</b> (never in Europe), insulator raised on top of the pole.",
+"pk": "https://www.plonkit.net/images/united-states/poles.png"
+},
+{
+"slug": "belgium",
+"img": "https://learnablemeta.com/images/847/Ls3M14B5RN7RCHQfsF3gmMoyZides3rIh9ZN.avif",
+"note": "Belgium: square concrete with tiny holes and small metal wrappings (also France); Netherlands has basically <b>no</b> street-level poles.",
+"pk": "https://www.plonkit.net/images/belgium/Belgium_Poles.png"
+}
+]
+},
+{
+"topic": "plates",
+"title": "Licence-plate 50/50s",
+"countries": [
+"uruguay",
+"argentina",
+"ukraine",
+"russia",
+"serbia",
+"croatia",
+"north-macedonia",
+"united-states",
+"canada"
+],
+"items": [
+{
+"slug": "uruguay",
+"img": "https://learnablemeta.com/images/5431/1766263211663-dZw.avif",
+"note": "Plain white, black characters. Argentina: white too, but with a black dot in the middle or a blue bar on top.",
+"pk": "https://www.plonkit.net/images/uruguay/Uruguay_License_Plate.png"
+},
+{
+"slug": "ukraine",
+"img": "https://learnablemeta.com/images/5431/1766263063293-DnS.avif",
+"note": "Long white with a <b>blue-and-yellow</b> strip on the left; Russia: fully white, no strip.",
+"pk": "https://www.plonkit.net/images/ukraine/Ukraine_License_Plate.png"
+},
+{
+"slug": "serbia",
+"img": "https://geomastr.com/assets/media/licenseplates/Serbia.jpg",
+"note": "White with a <b>blue strip</b> on the left (green = agricultural). Croatia and N. Macedonia typically have no blue strip.",
+"pk": "https://www.plonkit.net/images/serbia/Serbia_Plate.png"
+},
+{
+"slug": "united-states",
+"img": "https://geomastr.com/assets/media/licenseplates/Unitedstates.jpg",
+"note": "US/Canada: <b>short</b> plates, each state/province its own design. Europe: long plates with a blue strip.",
+"pk": "https://www.plonkit.net/images/united-states/Short_license_plate.png"
+}
+]
+}
+]

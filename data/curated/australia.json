@@ -1,0 +1,48 @@
+{
+"id": "australia",
+"title": "Australia – states & territories",
+"country": "australia",
+"regions": [
+{
+"id": "wa",
+"abbr": "WA",
+"name": "Western Australia"
+},
+{
+"id": "nt",
+"abbr": "NT",
+"name": "Northern Territory"
+},
+{
+"id": "qld",
+"abbr": "QLD",
+"name": "Queensland"
+},
+{
+"id": "sa",
+"abbr": "SA",
+"name": "South Australia"
+},
+{
+"id": "nsw",
+"abbr": "NSW",
+"name": "New South Wales"
+},
+{
+"id": "act",
+"abbr": "ACT",
+"name": "Australian Capital Territory"
+},
+{
+"id": "vic",
+"abbr": "VIC",
+"name": "Victoria"
+},
+{
+"id": "tas",
+"abbr": "TAS",
+"name": "Tasmania"
+}
+],
+"svg": "assets/maps/australia.svg"
+}

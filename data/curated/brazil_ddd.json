@@ -1,0 +1,554 @@
+{
+"id": "brazil-ddd",
+"title": "Brazil – phone area codes (DDD)",
+"intro": "Phone numbers in Brazil are written (DDD) NNNNN-NNNN. The first digit of the DDD gives the region: 1 = São Paulo, 2 = Rio/Espírito Santo, 3 = Minas, 4 = Paraná/Santa Catarina, 5 = Rio Grande do Sul, 6 = Centre-West + Acre/Rondônia, 7 = Bahia/Sergipe, 8 = North-East, 9 = North.",
+"regions": [
+{
+"id": "rr",
+"name": "Roraima",
+"codes": [
+{
+"code": "95",
+"note": "Boa Vista",
+"img": "https://learnablemeta.com/images/969/sr3YKSSkJAoSLUDQ1A41GNoN3LYdMjusenXC.avif"
+}
+],
+"abbr": "RR"
+},
+{
+"id": "ap",
+"name": "Amapá",
+"codes": [
+{
+"code": "96",
+"note": "Macapá",
+"img": "https://learnablemeta.com/images/969/0nL7vLVeSDBiyOEYzLLs35Xmso3Be4UZEk1j.avif"
+}
+],
+"abbr": "AP"
+},
+{
+"id": "am",
+"name": "Amazonas",
+"codes": [
+{
+"code": "92",
+"note": "Manaus",
+"img": "https://learnablemeta.com/images/969/5ulcPm5DPJErK2zaiBquIAsgZu2r37pxhWZU.avif"
+},
+{
+"code": "97",
+"note": "interior: Tefé, Coari",
+"img": "https://learnablemeta.com/images/969/Ib2ahygqDjcWJcjikGsKWlIu295YclQ0tKHd.avif"
+}
+],
+"abbr": "AM"
+},
+{
+"id": "pa",
+"name": "Pará",
+"codes": [
+{
+"code": "91",
+"note": "Belém",
+"img": "https://learnablemeta.com/images/969/rUNhtSDSm0ZQquj1E3QsXeQ135ts50y4hdPP.avif"
+},
+{
+"code": "93",
+"note": "Santarém (west)",
+"img": "https://learnablemeta.com/images/969/1iQ2IYDNrYlAKXmtUgVm9XCpgkcg30r7tvXE.avif"
+},
+{
+"code": "94",
+"note": "Marabá (south-east)",
+"img": "https://learnablemeta.com/images/969/Scgbuj7m3ergOvWssNFHteRLwr2gRxxkTsvM.avif"
+}
+],
+"abbr": "PA"
+},
+{
+"id": "ma",
+"name": "Maranhão",
+"codes": [
+{
+"code": "98",
+"note": "São Luís",
+"img": "https://learnablemeta.com/images/969/5ZPBdSo46idFyuVGFiX7BiCbQmUwbW9DnWVQ.avif"
+},
+{
+"code": "99",
+"note": "Imperatriz (south)",
+"img": "https://learnablemeta.com/images/969/wqSYD5QLh6BVkJEDQLud04jubcGCR9hDOw7v.avif"
+}
+],
+"abbr": "MA"
+},
+{
+"id": "ce",
+"name": "Ceará",
+"codes": [
+{
+"code": "85",
+"note": "Fortaleza",
+"img": "https://learnablemeta.com/images/969/zjkNjdjLN10ZiCdfCBTDXefl5X639ewpGN72.avif"
+},
+{
+"code": "88",
+"note": "interior: Juazeiro do Norte, Sobral",
+"img": "https://learnablemeta.com/images/969/bShdTssPM3Zxz8dFK8B7XSEPHi5h9PzMvvZW.avif"
+}
+],
+"abbr": "CE"
+},
+{
+"id": "rn",
+"name": "Rio Grande do Norte",
+"codes": [
+{
+"code": "84",
+"note": "Natal",
+"img": "https://learnablemeta.com/images/969/myhxy3Gz3n3eMKDFOv1vW4cpxAKkXhmLSBHO.avif"
+}
+],
+"abbr": "RN"
+},
+{
+"id": "ac",
+"name": "Acre",
+"codes": [
+{
+"code": "68",
+"note": "Rio Branco",
+"img": "https://learnablemeta.com/images/969/j6Hcm7zc9H9ZWZHyaSIzQkOgQZmMdxvySC3V.avif"
+}
+],
+"abbr": "AC"
+},
+{
+"id": "ro",
+"name": "Rondônia",
+"codes": [
+{
+"code": "69",
+"note": "Porto Velho",
+"img": "https://learnablemeta.com/images/969/TDjoWkEHTy9umKaG3Rb10PgpCRgsf8LmvCKf.avif"
+}
+],
+"abbr": "RO"
+},
+{
+"id": "to",
+"name": "Tocantins",
+"codes": [
+{
+"code": "63",
+"note": "Palmas",
+"img": "https://learnablemeta.com/images/969/GBUiwgaRAxd3yNYt7uoTZxqaxHUO5quGO1o2.avif"
+}
+],
+"abbr": "TO"
+},
+{
+"id": "pi",
+"name": "Piauí",
+"codes": [
+{
+"code": "86",
+"note": "Teresina",
+"img": "https://learnablemeta.com/images/969/bfwobCjSbYhtqbadOPXWsu9ptKhaBAbyn79B.avif"
+},
+{
+"code": "89",
+"note": "south: Picos, Floriano",
+"img": "https://learnablemeta.com/images/969/ZDYKWtPsXM0tZaIw5lFSU3PoujcJGly3eNXv.avif"
+}
+],
+"abbr": "PI"
+},
+{
+"id": "pe",
+"name": "Pernambuco",
+"codes": [
+{
+"code": "81",
+"note": "Recife",
+"img": "https://learnablemeta.com/images/969/ucxxvNY2d6j61lJui05gQ1Pxl3QsRMzuvC6U.avif"
+},
+{
+"code": "87",
+"note": "interior: Petrolina, Caruaru",
+"img": "https://learnablemeta.com/images/969/hWDVpj9sbF2iJYnzTR2uKzaMd6o1w0p96HUJ.avif"
+}
+],
+"abbr": "PE"
+},
+{
+"id": "pb",
+"name": "Paraíba",
+"codes": [
+{
+"code": "83",
+"note": "João Pessoa",
+"img": "https://learnablemeta.com/images/969/CQEt0tLqr93O9T1YSChWdSFHQEJOvtQOKKt8.avif"
+}
+],
+"abbr": "PB"
+},
+{
+"id": "mt",
+"name": "Mato Grosso",
+"codes": [
+{
+"code": "65",
+"note": "Cuiabá",
+"img": "https://learnablemeta.com/images/969/39phKSxFfavlFyJsMBNwfN7Zh61ze3whEudT.avif"
+},
+{
+"code": "66",
+"note": "Rondonópolis, Sinop",
+"img": "https://learnablemeta.com/images/969/Yiq6FJ3KpJxwpAzik9UJ86xgNFQ6EccFvSrs.avif"
+}
+],
+"abbr": "MT"
+},
+{
+"id": "ba",
+"name": "Bahia",
+"codes": [
+{
+"code": "71",
+"note": "Salvador",
+"img": "https://learnablemeta.com/images/969/NcZAsLUy6NhrMp5RJskdv15zKi2hl8rclDd3.avif"
+},
+{
+"code": "73",
+"note": "Ilhéus, Itabuna (south coast)",
+"img": "https://learnablemeta.com/images/969/CyWRWHhQqh4dipNJrBfNBgzMpUCtvzmRXzGD.avif"
+},
+{
+"code": "74",
+"note": "Juazeiro (north)",
+"img": "https://learnablemeta.com/images/969/7MiFLz6Xvp0qvJtfnfpBKthvXhYL4bjg6lr2.avif"
+},
+{
+"code": "75",
+"note": "Feira de Santana",
+"img": "https://learnablemeta.com/images/969/TvBRuN1NQDtM0c0r2ap4WusDIyPBiQXHnCK1.avif"
+},
+{
+"code": "77",
+"note": "Vitória da Conquista, Barreiras (west/south-west)",
+"img": "https://learnablemeta.com/images/969/DT6Q1FZyAvoHKAFHayddDFMdP0MAyDYYb5tI.avif"
+}
+],
+"abbr": "BA"
+},
+{
+"id": "se",
+"name": "Sergipe",
+"codes": [
+{
+"code": "79",
+"note": "Aracaju",
+"img": "https://learnablemeta.com/images/969/9Kz7Txi6aKYDvVhQvPyyLIEftdKvfv9raJmO.avif"
+}
+],
+"abbr": "SE"
+},
+{
+"id": "al",
+"name": "Alagoas",
+"codes": [
+{
+"code": "82",
+"note": "Maceió",
+"img": "https://learnablemeta.com/images/969/ZiBFDs9YLvypLkkjZCpr0QQYEXUfs17JJJJb.avif"
+}
+],
+"abbr": "AL"
+},
+{
+"id": "ms",
+"name": "Mato Grosso do Sul",
+"codes": [
+{
+"code": "67",
+"note": "Campo Grande",
+"img": "https://learnablemeta.com/images/969/wd1Q5Cth0jcVHjFPE311yDYOLHMFwzS78QaZ.avif"
+}
+],
+"abbr": "MS"
+},
+{
+"id": "go",
+"name": "Goiás",
+"codes": [
+{
+"code": "62",
+"note": "Goiânia",
+"img": "https://learnablemeta.com/images/969/ssCecRmSOZHsJJAJoxbeS1V32a4Jue0mf8v8.avif"
+},
+{
+"code": "64",
+"note": "south/south-west: Rio Verde, Itumbiara",
+"img": "https://learnablemeta.com/images/969/rbB8wqHmeFITt0gC8wBSmCztBMfrK9JnqzWj.avif"
+}
+],
+"abbr": "GO"
+},
+{
+"id": "df",
+"name": "Distrito Federal",
+"codes": [
+{
+"code": "61",
+"note": "Brasília",
+"img": "https://learnablemeta.com/images/969/qcO4qNVoyuzyooSPC5qtEuhItVQDaFbsKxUG.avif"
+}
+],
+"abbr": "DF"
+},
+{
+"id": "mg",
+"name": "Minas Gerais",
+"codes": [
+{
+"code": "31",
+"note": "Belo Horizonte",
+"img": "https://learnablemeta.com/images/969/i5I4XPf4LHmZ2LKNWohLVczGxc86R9bFH0SU.avif"
+},
+{
+"code": "32",
+"note": "Juiz de Fora (south-east)",
+"img": "https://learnablemeta.com/images/969/3Wb7T0l5ryOU26UKaRKGjMLU5UZl0ZPfBqMX.avif"
+},
+{
+"code": "33",
+"note": "Governador Valadares (east)",
+"img": "https://learnablemeta.com/images/969/e84d7XMHUOIwkIoPekziNbmez50vUAMM0v2j.avif"
+},
+{
+"code": "34",
+"note": "Uberlândia (Triângulo Mineiro, west)",
+"img": "https://learnablemeta.com/images/969/5NAnCIDDMXqiBV4oNAtYKBM2xa2OGYqpNzLJ.avif"
+},
+{
+"code": "35",
+"note": "Poços de Caldas, Varginha (south)",
+"img": "https://learnablemeta.com/images/969/lmIXqXHWrESxNq9JI5mqrw0JwFaSzyNRmQMm.avif"
+},
+{
+"code": "37",
+"note": "Divinópolis (centre-west)",
+"img": "https://learnablemeta.com/images/969/4UdcdpHF2J2In9r3G1LZGXxM3Jjfo6gWy2lw.avif"
+},
+{
+"code": "38",
+"note": "Montes Claros (north)",
+"img": "https://learnablemeta.com/images/969/weC4lOP1qMib6Sc4J7gI7RnVrJ8uA5N21Ep2.avif"
+}
+],
+"abbr": "MG"
+},
+{
+"id": "es",
+"name": "Espírito Santo",
+"codes": [
+{
+"code": "27",
+"note": "Vitória",
+"img": "https://learnablemeta.com/images/969/L06R6BbRfpaVPO0VxArzBkGZPUikMsjP8Kjv.avif"
+},
+{
+"code": "28",
+"note": "Cachoeiro de Itapemirim (south)",
+"img": "https://learnablemeta.com/images/969/4lNNopHjc1H7mUzyZezEHceM5gIk9e9wa5nQ.avif"
+}
+],
+"abbr": "ES"
+},
+{
+"id": "pr",
+"name": "Paraná",
+"codes": [
+{
+"code": "41",
+"note": "Curitiba",
+"img": "https://learnablemeta.com/images/969/s4hb3126bgzJXgsQ3TwnPHbaxCVkCwGihIEb.avif"
+},
+{
+"code": "42",
+"note": "Ponta Grossa",
+"img": "https://learnablemeta.com/images/969/99i0CUjaN7RDd14U52aEC7SZ8hZribxQDsoW.avif"
+},
+{
+"code": "43",
+"note": "Londrina (north)",
+"img": "https://learnablemeta.com/images/969/8tHchADX93w65qr4sOCwrLXjDPY7XvlPZZLI.avif"
+},
+{
+"code": "44",
+"note": "Maringá (north-west)",
+"img": "https://learnablemeta.com/images/969/ZBJQDWNP8UUZ5oaFFUZWXrZ0niYn58S3wCyc.avif"
+},
+{
+"code": "45",
+"note": "Foz do Iguaçu, Cascavel (west)",
+"img": "https://learnablemeta.com/images/969/9G3coPn2tOCbPXAaZvYbOcfu4zONxO5dC2Zu.avif"
+},
+{
+"code": "46",
+"note": "Pato Branco (south-west)",
+"img": "https://learnablemeta.com/images/969/Xzk5Na8Oo1KlsDRWs3mIWTP47zJshf0f4U5v.avif"
+}
+],
+"abbr": "PR"
+},
+{
+"id": "sp",
+"name": "São Paulo",
+"codes": [
+{
+"code": "11",
+"note": "São Paulo city",
+"img": "https://learnablemeta.com/images/969/lAQ6X22tmazlUNdoVRmxV4xPwES4xpb797Jm.avif"
+},
+{
+"code": "12",
+"note": "São José dos Campos, Vale do Paraíba",
+"img": "https://learnablemeta.com/images/969/jV45dLqxz6g8hAwomvMBQynWtAz1vWuQZY2Z.avif"
+},
+{
+"code": "13",
+"note": "Santos (coast)",
+"img": "https://learnablemeta.com/images/969/NpWPTtgV0Iz0GMUpbyWscBh4IHnlzXtS5M6e.avif"
+},
+{
+"code": "14",
+"note": "Bauru",
+"img": "https://learnablemeta.com/images/969/Bhh9DCpkVcbElm3oL7rAcbZtzYRvEQ2ryYwg.avif"
+},
+{
+"code": "15",
+"note": "Sorocaba",
+"img": "https://learnablemeta.com/images/969/HLgTo6w1Ip4YcyeZoI4NFIPYMCUmpuSVKVJT.avif"
+},
+{
+"code": "16",
+"note": "Ribeirão Preto",
+"img": "https://learnablemeta.com/images/969/dMuFJxVpl7SzRfLJ2Ok24LS61Q6AevwMBUWP.avif"
+},
+{
+"code": "17",
+"note": "São José do Rio Preto",
+"img": "https://learnablemeta.com/images/969/9LD6CbU6lmaglxmeTn7GZMMaAXZ3r4zchTC6.avif"
+},
+{
+"code": "18",
+"note": "Presidente Prudente (west)",
+"img": "https://learnablemeta.com/images/969/bGkLaJJJT2MCpJwaZzcimbsCynXAUTxcm6d6.avif"
+},
+{
+"code": "19",
+"note": "Campinas",
+"img": "https://learnablemeta.com/images/969/UmrJflpPRIWSrDgbqvWpxJ94tkIoBU2aPi9s.avif"
+}
+],
+"abbr": "SP"
+},
+{
+"id": "rj",
+"name": "Rio de Janeiro",
+"codes": [
+{
+"code": "21",
+"note": "Rio de Janeiro city",
+"img": "https://learnablemeta.com/images/969/oQ1MxYZclIrJoUcMZIvCDiwzlaX3GEUlElPb.avif"
+},
+{
+"code": "22",
+"note": "Campos, Cabo Frio (north/east)",
+"img": "https://learnablemeta.com/images/969/zF2tWspRpby3s6rTaq8G1mAypqJ1kJHaHGxu.avif"
+},
+{
+"code": "24",
+"note": "Volta Redonda, Petrópolis (west/mountains)",
+"img": "https://learnablemeta.com/images/969/oRw0dhkZYmvcqBtAWrMDgDgFTJ8gD7hYuIvC.avif"
+}
+],
+"abbr": "RJ"
+},
+{
+"id": "sc",
+"name": "Santa Catarina",
+"codes": [
+{
+"code": "47",
+"note": "Joinville, Blumenau (north)",
+"img": "https://learnablemeta.com/images/969/fxSmTZck3V11XBSxSHjy3IyNvTHJEbqLYZ3n.avif"
+},
+{
+"code": "48",
+"note": "Florianópolis",
+"img": "https://learnablemeta.com/images/969/GAkKHcXsZ15RNkTEVzQfxmurKhH4Oq5XjW18.avif"
+},
+{
+"code": "49",
+"note": "Chapecó, Lages (west)",
+"img": "https://learnablemeta.com/images/969/QduOpfjH6x1Ql1Wg2CKXXfekzKcfgIPEZPGo.avif"
+}
+],
+"abbr": "SC"
+},
+{
+"id": "rs",
+"name": "Rio Grande do Sul",
+"codes": [
+{
+"code": "51",
+"note": "Porto Alegre",
+"img": "https://learnablemeta.com/images/969/tp7gvg6obT3EWfuDRnruo8WGhg7D6jMf5Wrc.avif"
+},
+{
+"code": "53",
+"note": "Pelotas (south)",
+"img": "https://learnablemeta.com/images/969/b5wxVOTLy4Hh9uq5ZJlwJpHgVhcChJLnKh5d.avif"
+},
+{
+"code": "54",
+"note": "Caxias do Sul (north-east)",
+"img": "https://learnablemeta.com/images/969/pGmyH1bfO0P9On0qBghDfXI6FdKUSnBuntZ5.avif"
+},
+{
+"code": "55",
+"note": "Santa Maria, Uruguaiana (west)",
+"img": "https://learnablemeta.com/images/969/cq1FIZ97OnnFUAHjTA608rPpxdQOyJ1ZpGCu.avif"
+}
+],
+"abbr": "RS"
+}
+],
+"digits": {
+"1": "São Paulo state",
+"2": "Rio de Janeiro + Espírito Santo",
+"3": "Minas Gerais",
+"4": "Paraná + Santa Catarina",
+"5": "Rio Grande do Sul",
+"6": "Centre-West (DF, GO, TO, MT, MS) + Acre, Rondônia",
+"7": "Bahia + Sergipe",
+"8": "North-East (PE, AL, PB, RN, CE, PI)",
+"9": "North (PA, AM, RR, AP, MA)"
+},
+"svg": "assets/maps/brazil.svg",
+"digitColors": {
+"1": "#ef4444",
+"2": "#f97316",
+"3": "#eab308",
+"4": "#22c55e",
+"5": "#14b8a6",
+"6": "#3b82f6",
+"7": "#8b5cf6",
+"8": "#ec4899",
+"9": "#a3a3a3"
+}
+}
