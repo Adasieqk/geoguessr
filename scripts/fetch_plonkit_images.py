@@ -23,7 +23,7 @@ If plonkit's Cloudflare protection answers 403 to the script, use the browser fa
     # 3. when it says "done":
     python3 scripts/fetch_plonkit_images.py --import pk_raw
 """
-import argparse, glob, io, json, os, re, sys, time, urllib.parse, urllib.request
+import argparse, glob, io, json, os, re, sys, time, urllib.error, urllib.parse, urllib.request
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 OUT_DIR = os.path.join(ROOT, 'pk')
@@ -105,16 +105,24 @@ def download(urls, delay):
         req = urllib.request.Request(url, headers={'User-Agent': UA, 'Referer': 'https://www.plonkit.net/' + slug,
                                                    'Accept': 'image/avif,image/webp,image/png,image/*;q=0.8,*/*;q=0.5'})
         try:
-            with urllib.request.urlopen(req, timeout=60) as r:
-                data = r.read()
-                ctype = r.headers.get('Content-Type', '')
+            for attempt in range(6):
+                try:
+                    with urllib.request.urlopen(req, timeout=60) as r:
+                        data = r.read()
+                        ctype = r.headers.get('Content-Type', '')
+                    break
+                except urllib.error.HTTPError as he:
+                    if he.code == 429 and attempt < 5:
+                        w = 20 * 2 ** attempt
+                        print('  rate limited, waiting %ds ...' % w); time.sleep(w); continue
+                    raise
             if not ctype.startswith('image/'):
                 raise RuntimeError('not an image (%s)' % ctype)
             manifest[url] = save(data, url)
             ok += 1; blocked_in_a_row = 0
         except Exception as e:
             fail += 1
-            if '403' in str(e) or '429' in str(e):
+            if '403' in str(e):
                 blocked_in_a_row += 1
             print('  ! %s: %s' % (url, e))
             if blocked_in_a_row >= 8:
@@ -130,23 +138,33 @@ def download(urls, delay):
 
 
 CONSOLE_JS = r"""// GeoStudy: paste into the DevTools console on https://www.plonkit.net (Chrome/Edge desktop)
+// Safe to run again: pictures already in the folder are skipped. On "429 Too Many Requests" it waits and retries.
 (async () => {
   const LIST = __LIST__;
+  const sleep = ms => new Promise(res => setTimeout(res, ms));
   const dir = await window.showDirectoryPicker({ mode: 'readwrite' });
-  let ok = 0, fail = 0;
-  for (let i = 0; i < LIST.length; i++) {
-    const [url, name] = LIST[i];
-    try {
-      try { await dir.getFileHandle(name); ok++; continue; } catch (e) { /* not there yet */ }
-      const r = await fetch(url, { credentials: 'include' });
-      if (!r.ok) throw new Error(r.status);
-      const fh = await dir.getFileHandle(name, { create: true });
-      const w = await fh.createWritable(); await w.write(await r.blob()); await w.close(); ok++;
-    } catch (e) { fail++; console.warn('failed', url, e); }
-    if (i % 50 === 0) console.log(`${i}/${LIST.length}  ok=${ok} failed=${fail}`);
-    await new Promise(res => setTimeout(res, 150));
+  const have = new Set(); for await (const [n] of dir.entries()) have.add(n);
+  const todo = LIST.filter(([, name]) => !have.has(name));
+  console.log(`${LIST.length - todo.length} already saved, ${todo.length} to download (~${Math.round(todo.length * 1.3 / 60)} min)`);
+  let ok = 0, fail = 0, wait = 0;
+  for (let i = 0; i < todo.length; i++) {
+    const [url, name] = todo[i];
+    let done = false;
+    for (let attempt = 0; attempt < 6 && !done; attempt++) {
+      try {
+        const r = await fetch(url, { credentials: 'include' });
+        if (r.status === 429 || r.status === 403) { wait = Math.min(180, (wait || 15) * 2); console.warn(`rate limited (${r.status}), waiting ${wait}s ...`); await sleep(wait * 1000); continue; }
+        if (!r.ok) { console.warn('skip', r.status, url); break; }
+        const fh = await dir.getFileHandle(name, { create: true });
+        const w = await fh.createWritable(); await w.write(await r.blob()); await w.close();
+        ok++; wait = 0; done = true;
+      } catch (e) { console.warn('error', url, e); await sleep(3000); }
+    }
+    if (!done) fail++;
+    if (i % 25 === 0) console.log(`${i}/${todo.length}  ok=${ok} failed=${fail}`);
+    await sleep(1200 + Math.random() * 600);
   }
-  console.log(`done: ok=${ok} failed=${fail}. Now run: python3 scripts/fetch_plonkit_images.py --import <that folder>`);
+  console.log(`done: ok=${ok} failed=${fail}. ` + (fail ? 'Run the script again to retry the failed ones. ' : '') + 'Now run: python3 scripts/fetch_plonkit_images.py --import <that folder>');
 })();
 """
 
@@ -177,7 +195,7 @@ def main():
     ap.add_argument('--all', action='store_true', help='download every plonkit picture, not only the missing ones')
     ap.add_argument('--browser', action='store_true', help='write pk_console.js for the browser fallback')
     ap.add_argument('--import', dest='imp', metavar='FOLDER', help='import pictures saved by pk_console.js')
-    ap.add_argument('--delay', type=float, default=0.4, help='seconds between requests (default 0.4)')
+    ap.add_argument('--delay', type=float, default=1.0, help='seconds between requests (default 1.0)')
     a = ap.parse_args()
     if Image is None:
         print('Note: Pillow not installed -> pictures are stored unconverted (bigger). pip install pillow\n')
