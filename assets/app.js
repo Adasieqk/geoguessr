@@ -141,7 +141,8 @@ route(/^\/continent\/([a-z-]+)$/, async (app, m) => {
 });
 
 /* ------------------------------------------------------------ country page */
-const tipHTML = (t0, slug) => { const t = { ...t0, img: imgOf(t0.img, t0.pk_img) }; return `<div class="tip ${t.img ? '' : 'noimg'}">${t.img ? `<div>${IMG(t.img)}${t.imgs && t.imgs.length > 1 ? `<div class="imgrow" style="margin-top:.3rem">${t.imgs.slice(1).map(i => IMG(i, 'small')).join('')}</div>` : ''}</div>` : ''}<div class="txt">${t.html || ''}<div class="src">${t.link ? `<a href="${esc(t.link)}" target="_blank" rel="noopener">📍 Street View</a> · ` : ''}${t.img ? '' : `<span title="plonkit does not allow embedding its pictures; this one had no learnablemeta copy">📷 picture only on <a href="https://www.plonkit.net/${slug || ''}" target="_blank" rel="noopener">plonkit</a></span>`}</div></div></div>`; };
+const pkLink = (slug, label = 'View the picture on plonkit') => `<a class="pkbtn" href="https://www.plonkit.net/${slug || ''}" target="_blank" rel="noopener">🖼 ${label} ↗</a>`;
+const tipHTML = (t0, slug) => { const t = { ...t0, img: imgOf(t0.img, t0.pk_img) }; return `<div class="tip ${t.img ? '' : 'noimg'}">${t.img ? `<div>${IMG(t.img)}${t.imgs && t.imgs.length > 1 ? `<div class="imgrow" style="margin-top:.3rem">${t.imgs.slice(1).map(i => IMG(i, 'small')).join('')}</div>` : ''}</div>` : ''}<div class="txt">${t.html || ''}<div class="src">${t.link ? `<a href="${esc(t.link)}" target="_blank" rel="noopener">📍 Street View</a>` : ''}</div>${!t.img && t0.pk_img ? `<div style="margin-top:.4rem">${pkLink(slug)}</div>` : ''}</div></div>`; };
 const metaHTML = m => `<div class="meta-item"><b>${esc(m.name)}</b> <span class="muted small">· ${esc(m.map)}</span><div class="note">${m.note || ''}</div><div class="imgs">${(m.images || []).map(i => IMG(i)).join('')}</div></div>`;
 function stepsHTML(steps, open, slug) {
   return steps.map((s, i) => {
@@ -223,14 +224,14 @@ route(/^\/topic\/([a-z-]+)$/, async (app, m, q) => {
   ${rows.map(r => `<div class="card" id="c-${r.slug}"><h3>${IMG(r.flag, 'flag')} <a href="#/country/${r.slug}">${esc(r.name)}</a> ${tid === 'phone' ? `<span class="muted">${esc(r.phone || '')}</span>` : ''}${tid === 'road-lines' && r.gm_note ? `<span class="muted small"> · ${esc(r.gm_note)}</span>` : ''}</h3>
     ${r.gm_imgs?.length ? `<div class="imgrow">${r.gm_imgs.map(i => IMG(i, tid === 'signs' ? 'sign' : '')).join('')}</div>` : ''}
     ${r.gm_note && tid !== 'road-lines' ? `<div class="small muted">${esc(r.gm_note)}</div>` : ''}
-    ${r.tips.map(t => `<div class="tip compact">${imgOf(t.img, t.pk) ? `<div>${IMG(imgOf(t.img, t.pk))}</div>` : '<div></div>'}<div class="txt">${t.html}<div class="src">${esc(t.step)}</div></div></div>`).join('')}
+    ${r.tips.map(t => `<div class="tip compact">${imgOf(t.img, t.pk) ? `<div>${IMG(imgOf(t.img, t.pk))}</div>` : `<div>${t.pk ? pkLink(r.slug, 'picture on plonkit') : ''}</div>`}<div class="txt">${t.html}<div class="src">${esc(t.step)}</div></div></div>`).join('')}
   </div>`).join('') || '<p class="muted">Nothing for this continent.</p>'}`;
   app.querySelectorAll('a[href^="#c-"]').forEach(a => a.onclick = e => { e.preventDefault(); document.getElementById(a.getAttribute('href').slice(1))?.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
 });
 
 /* ------------------------------------------------------------ confusables (curated) */
 function confHTML(g) {
-  return `<div class="card"><h3>${esc(g.title)}</h3><p class="small">${g.intro || ''}</p><div class="cmp">${g.items.map(it => { const c = findC(it.slug); return `<div class="c">${IMG(imgOf(it.img, it.pk))}<div class="n"><a href="#/country/${it.slug}">${esc(c ? c.name : it.slug)}</a></div><div class="d">${it.note}</div></div>`; }).join('')}</div>${g.tip ? `<p class="small">💡 ${g.tip}</p>` : ''}</div>`;
+  return `<div class="card"><h3>${esc(g.title)}</h3><p class="small">${g.intro || ''}</p><div class="cmp">${g.items.map(it => { const c = findC(it.slug); return `<div class="c">${imgOf(it.img, it.pk) ? IMG(imgOf(it.img, it.pk)) : (it.pk ? pkLink(it.slug, 'picture on plonkit') : '')}<div class="n"><a href="#/country/${it.slug}">${esc(c ? c.name : it.slug)}</a></div><div class="d">${it.note}</div></div>`; }).join('')}</div>${g.tip ? `<p class="small">💡 ${g.tip}</p>` : ''}</div>`;
 }
 route(/^\/confusables$/, async app => {
   const list = G.curated.confusables || [];
