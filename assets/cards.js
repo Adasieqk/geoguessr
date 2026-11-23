@@ -26,7 +26,7 @@ const SRS = {
   },
 };
 function deckRow(d) {
-  return `<div class="deckrow"><div class="t"><a href="#/deck/${d.id}">${esc(d.title)}</a><small>${esc(d.desc || '')} · ${d.count} cards</small></div><a class="btn sm" href="#/deck/${d.id}">Study</a></div>`;
+  return `<div class="deckrow"><div class="t"><a href="#/deck/${d.id}">${esc(d.title)}</a><small>${esc(d.desc || '')} · ${d.count} cards${d.browse ? ' · browse only' : ''}</small></div><a class="btn sm" href="#/deck/${d.id}">${d.browse ? 'Browse' : 'Study'}</a></div>`;
 }
 route(/^\/decks$/, async (app, m, q) => {
   const decks = G.decks; const groups = [...new Set(decks.map(d => d.group))];
@@ -60,11 +60,12 @@ route(/^\/deck\/([a-z0-9-]+)$/, async (app, m, q) => {
   const st = SRS.deckStats(deck.id, deck.cards);
   const answers = [...new Set(deck.cards.map(c => c.a))];
   const canChoice = answers.length >= 4;
-  app.innerHTML = `<div class="fc"><h1 style="font-size:1.25rem">${esc(deck.title)}</h1><p class="muted small">${esc(deck.desc || '')} · ${deck.cards.length} cards · ${st.due} due · ${st.newc} new · ${st.learned} learned</p>
-  <div class="chips"><button class="chip" data-mode="due">Due + new</button><button class="chip" data-mode="all">All (cram)</button>${canChoice ? '<button class="chip" data-mode="choice">Multiple choice</button>' : ''}<button class="chip" data-mode="browse">Browse</button></div>
+  const browseOnly = !!meta.browse;
+  app.innerHTML = `<div class="fc"><h1 style="font-size:1.25rem">${esc(deck.title)}</h1><p class="muted small">${esc(deck.desc || '')} · ${deck.cards.length} cards${browseOnly ? ' · browse only' : ` · ${st.due} due · ${st.newc} new · ${st.learned} learned`}</p>
+  ${browseOnly ? '' : `<div class="chips"><button class="chip" data-mode="due">Due + new</button><button class="chip" data-mode="all">All (cram)</button>${canChoice ? '<button class="chip" data-mode="choice">Multiple choice</button>' : ''}<button class="chip" data-mode="browse">Browse</button></div>`}
   <div id="fcbody"></div></div>`;
   app.querySelectorAll('[data-mode]').forEach(b => b.onclick = () => startDeck(deck, b.dataset.mode));
-  startDeck(deck, q.mode || (st.due + st.newc ? 'due' : 'all'));
+  startDeck(deck, browseOnly ? 'browse' : (q.mode || (st.due + st.newc ? 'due' : 'all')));
 });
 function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 function startDeck(deck, mode) {

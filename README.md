@@ -12,6 +12,12 @@ Tabs: 📋 Cheat sheet (facts, top 10, pictures at a glance) · 🗂 All tips (g
 lines, signs, language, car, …) · 🗺 Regions · 🤔 Confused with (every plonkit comparison with another country) ·
 🔎 Metas · 📚 More (decks, map lists, sources). 🎲 Random opens a random country.
 
+## Regional plates
+
+`#/plates` – US states, Canada, Mexico, Australia, Japan (pole plates), Philippines (motorcycle) and one plate per
+country in the world, from learnablemeta collections. Browse (search, "front plate required" filter), blur mode
+and a quiz. Plonkit-based flashcard decks are browse-only because their pictures often carry the answer.
+
 ## Running it
 
 * **GitHub Pages**: Settings → Pages → *Deploy from a branch* → branch `main` (or this branch), folder `/ (root)`.

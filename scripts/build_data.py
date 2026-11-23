@@ -423,11 +423,11 @@ for tid, (pat, gmfn) in TOPICS.items():
 # ---------------------------------------------------------------- flashcard decks
 os.makedirs(os.path.join(OUT, 'decks'), exist_ok=True)
 decks = []
-def add_deck(did, title, group, cards, desc=''):
+def add_deck(did, title, group, cards, desc='', browse=False):
     cards = [c for c in cards if c.get('q') or c.get('qtext') or c.get('pk')]
     if len(cards) < 4: return
-    json.dump({'id': did, 'title': title, 'group': group, 'desc': desc, 'cards': cards}, open(os.path.join(OUT, 'decks', did + '.json'), 'w'), ensure_ascii=False, separators=(',', ':'))
-    decks.append({'id': did, 'title': title, 'group': group, 'count': len(cards), 'desc': desc})
+    json.dump({'id': did, 'title': title, 'group': group, 'desc': desc, 'browse': browse, 'cards': cards}, open(os.path.join(OUT, 'decks', did + '.json'), 'w'), ensure_ascii=False, separators=(',', ':'))
+    decks.append({'id': did, 'title': title, 'group': group, 'count': len(cards), 'desc': desc, 'browse': browse})
 
 cont_of = {c['slug']: c['continents'] for c in index}
 # geomastr image -> country decks per continent
@@ -467,9 +467,9 @@ for slug, g in guides.items():
         for it in s['items']:
             if it['k'] == 'tip' and (it['img'] or it.get('pk_img')):
                 cards.append({'q': [it['img']] if it['img'] else [], 'pk': it.get('pk_img'), 'a': g['name'], 'slug': slug, 'note': it['html'], 'step': s['title']})
-    add_deck('pk-' + slug, g['name'] + ' – all plonkit tips', 'Country', cards, 'Image → explanation (plonkit)')
+    add_deck('pk-' + slug, g['name'] + ' – all plonkit tips', 'Country', cards, 'Image → explanation (plonkit)', browse=True)
     top = [c for c in cards if (c['step'] or '').lower().startswith('identifying')][:12]
-    add_deck('pk-top-' + slug, g['name'] + ' – top identifiers', 'Country top', top, 'The key clues (plonkit step 1)')
+    add_deck('pk-top-' + slug, g['name'] + ' – top identifiers', 'Country top', top, 'The key clues (plonkit step 1)', browse=True)
 
 # continent "which country?" decks from plonkit step-1 images
 for cont in CONTINENTS:
@@ -480,7 +480,7 @@ for cont in CONTINENTS:
             if s['kind'] == 'tips' and (s['title'] or '').lower().startswith('identifying'):
                 for it in [i for i in s['items'] if i['k'] == 'tip' and (i['img'] or i.get('pk_img'))][:10]:
                     cards.append({'q': [it['img']] if it['img'] else [], 'pk': it.get('pk_img'), 'a': g['name'], 'slug': slug, 'note': it['html']})
-    add_deck('pk-which-' + cont.lower().replace(' ', '-'), f'Which country? – {cont} (plonkit)', cont, cards, 'Image → country, from each guide\'s key clues')
+    add_deck('pk-which-' + cont.lower().replace(' ', '-'), f'Which country? – {cont} (plonkit)', cont, cards, 'Browse: key clues from each guide\'s first step (plonkit)', browse=True)
 
 json.dump(decks, open(os.path.join(OUT, 'decks', 'index.json'), 'w'), ensure_ascii=False, separators=(',', ':'))
 print('decks', len(decks))
@@ -516,3 +516,68 @@ if os.path.exists(src):
     os.makedirs(os.path.join(OUT, 'curated'), exist_ok=True)
     json.dump(groups, open(os.path.join(OUT, 'curated', 'confusables.json'), 'w'), ensure_ascii=False, indent=0)
     print('confusables images: swapped', swapped, 'fallback/dropped', dropped, 'kept', kept)
+
+
+# ---------------------------------------------------------------- regional licence plates (learnablemeta collections)
+import unicodedata
+def fold(t): return ''.join(c for c in unicodedata.normalize('NFD', t.lower()) if unicodedata.category(c) != 'Mn')
+def front_flag(note):
+    m = re.search(r'front plates? (?:are |is )?(not )?required', re.sub('<[^>]+>', ' ', note), re.I)
+    return None if not m else (not m.group(1))
+MX_STATES = ['Aguascalientes', 'Baja California Sur', 'Baja California', 'Campeche', 'Chiapas', 'Chihuahua', 'Coahuila', 'Colima', 'Durango', 'Guanajuato', 'Guerrero', 'Hidalgo', 'Jalisco', 'Estado de México', 'Michoacán', 'Morelos', 'Nayarit', 'Nuevo León', 'Oaxaca', 'Puebla', 'Querétaro', 'Quintana Roo', 'San Luis Potosí', 'Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatán', 'Zacatecas']
+MX_ALIAS = {'chihuaha': 'Chihuahua', 'mexico state': 'Estado de México', 'michoacan': 'Michoacán', 'nuevo leon': 'Nuevo León', 'queretaro': 'Querétaro', 'san luis potosi': 'San Luis Potosí', 'yucatan': 'Yucatán'}
+def mx_state(label):
+    f = fold(label).strip()
+    for k, v in MX_ALIAS.items():
+        if f.startswith(k): return v, re.sub(r'^\s*[-–]?\s*', '', f[len(k):]).strip()
+    for st in sorted(MX_STATES, key=len, reverse=True):
+        if f.startswith(fold(st)): return st, f[len(fold(st)):].strip()
+    return label.strip(), ''
+def clean_note_html(n): return clean_note(n)
+def plain(n): return re.sub(r'\s+', ' ', re.sub('<[^>]+>', ' ', html.unescape(n or ''))).strip()
+def p_usa(m):
+    n = re.sub(r'\s*License Plates?\s*$', '', m['name'], flags=re.I).replace('_', ' ').strip()
+    n = {'Winsconsin': 'Wisconsin', 'West Viriginia': 'West Virginia', 'Washington D.C': 'Washington D.C.'}.get(n, n)
+    return n, ''
+def p_canada(m): return re.sub(r'\s*(license )?plate\s*$', '', m['name'], flags=re.I).strip(), ''
+def p_mexico(m):
+    parts = [x.strip() for x in m['name'].split(' - ')]
+    st, rest = mx_state(parts[-1])
+    _, first_rest = mx_state(parts[0])
+    return st, (rest or first_rest or '')
+def p_aus(m):
+    n = re.sub(r'\s*Plate\s*', ' ', m['name'], flags=re.I).strip(); var = ''
+    if '–' in n: n, var = [x.strip() for x in n.split('–', 1)]
+    return {'Queensland': 'Queensland', 'Victoria': 'Victoria', 'Tasmania': 'Tasmania'}.get(n, n), var.lower()
+def p_japan(m): return re.sub(r'\s*plates?\s*$', '', m['name'], flags=re.I).strip(), ''
+def p_ph(m):
+    region = plain(m['note']) or m['name']; extra = ''
+    if ' - ' in region: region, extra = [x.strip() for x in region.split(' - ', 1)]
+    return region, (re.sub(r'\s*MC License Plates?\s*', '', m['name']).strip() + (' · ' + extra if extra else ''))
+def p_world(m): return m['name'].split(' - ')[0].strip(), ''
+PLATE_COLLECTIONS = [
+    ('usa', 'USA – states', 'USA License plates.', 'united-states', p_usa, 'Every US state has its own design. Whether a state requires a front plate is a clue on its own: if you can see a plate on the front of a car, it narrows the state down.'),
+    ('canada', 'Canada – provinces & territories', 'A Learnable Canada - License Plates', 'canada', p_canada, 'Each province has its own plate; several are recognisable through the blur.'),
+    ('mexico', 'Mexico – states', 'A Learnable Mexico - License Plates', 'mexico', p_mexico, 'Mexican states issue several designs each (old and new). Colour scheme is what survives the blur.'),
+    ('australia', 'Australia – states & territories', 'Australia Licence Plate training', 'australia', p_aus, 'Plates are only slightly visible through the blur, so learn the dominant colours.'),
+    ('japan', 'Japan – utility pole plates by region', 'A Learnable Meta Japan - Plates', 'japan', p_japan, 'Not car plates: the plate on a utility pole shows which regional power company the area belongs to.'),
+    ('philippines', 'Philippines – motorcycle plates by region', 'A Learnable Philippines - Motorcycle License Plate', 'philippines', p_ph, 'Motorcycle plate colour (top/bottom stripe) indicates the region.'),
+    ('world', 'World – country plates', 'A Learnable License Plates', None, p_world, 'One typical plate per country with how to tell it from its look-alikes.'),
+]
+collections_out = []
+for cid, title, mapname, cslug, parse, intro in PLATE_COLLECTIONS:
+    items = []
+    for m in metas:
+        if m['map'] != mapname or not m['images']: continue
+        name, variant = parse(m)
+        items.append({'name': name, 'variant': variant, 'note': clean_note(m['note']) if cid != 'philippines' else '', 'images': m['images'][:3], 'front': front_flag(m['note']),
+                      'slug': next((sl for nm, sl in name_to_slug.items() if cid == 'world' and nm == name.lower()), None)})
+    seen_k = set(); uniq = []
+    for it in items:
+        k = (it['name'], it['variant'], it['images'][0])
+        if k in seen_k: continue
+        seen_k.add(k); uniq.append(it)
+    uniq.sort(key=lambda x: (fold(x['name']), x['variant']))
+    if uniq: collections_out.append({'id': cid, 'title': title, 'country': cslug, 'intro': intro, 'items': uniq})
+json.dump({'collections': collections_out}, open(os.path.join(OUT, 'plates.json'), 'w'), ensure_ascii=False, separators=(',', ':'))
+print('plate collections', [(c['id'], len(c['items'])) for c in collections_out])

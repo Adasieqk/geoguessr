@@ -191,3 +191,16 @@ details>.body{padding:0 .9rem .9rem}
 .pager{display:flex;justify-content:space-between;gap:.5rem;margin:2rem 0 1rem}
 h1 .flag,h3 .flag{width:30px;height:21px}
 .vsitem.noimg{grid-template-columns:1fr}
+
+/* ---- plates ---- */
+.ptools{display:flex;gap:.5rem;flex-wrap:wrap;margin:.6rem 0}
+.ptools input,.ptools select{padding:.5rem .7rem;border-radius:8px;border:1px solid #475569;background:var(--bg2);color:var(--fg);font-size:16px}
+.ptools input{flex:1;min-width:160px}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.7rem}
+.pcard{background:var(--bg2);border:1px solid #334155;border-radius:var(--radius);padding:.6rem;display:flex;flex-direction:column;gap:.5rem}
+.pimgs{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center}
+.pimgs img,.fc .q img.plate{max-width:100%;max-height:220px;object-fit:contain;border-radius:6px;background:#fff;cursor:zoom-in}
+img.blurred{filter:blur(7px);cursor:pointer!important;transition:filter .2s}
+.note-s{font-size:.88rem;color:#cbd5e1}.note-s p{margin:.25em 0}.note-s ul{margin:.25em 0;padding-left:1.1em}
+.badge{display:inline-block;font-size:.72rem;border-radius:999px;padding:.05rem .5rem;margin-left:.3rem;white-space:nowrap}
+.badge.ok{background:#14532d;color:#bbf7d0}.badge.no{background:#4c1d1d;color:#fecaca}

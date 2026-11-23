@@ -59,6 +59,7 @@ route(/^\/$/, async app => {
       <a class="card" href="#/confusables"><b>🤔 Confusables</b><br><span class="muted small">Poland vs Turkey vs Australia bollards, and other classic mix-ups.</span></a>
       <a class="card" href="#/quiz/brazil-ddd"><b>🇧🇷 Brazil phone codes (DDD)</b><br><span class="muted small">Blank map quiz: where is code 31?</span></a>
       <a class="card" href="#/quiz/us-states"><b>🇺🇸 US states</b><br><span class="muted small">Map quiz + state clues.</span></a>
+      <a class="card" href="#/plates"><b>🚗 Regional plates</b><br><span class="muted small">US states, Canada, Mexico… with blur mode and quiz.</span></a>
       <a class="card" href="#/decks"><b>🃏 Flashcards</b><br><span class="muted small">Image → country decks with spaced repetition.</span></a>
       <a class="card" href="#/topics"><b>📚 Topics</b><br><span class="muted small">Bollards, plates, poles, road lines, signs, languages, cars, landscape.</span></a>
     </div>`;
@@ -170,7 +171,7 @@ route(/^\/country\/([a-z0-9-]+)$/, async (app, m, q) => {
   app.innerHTML = `
   <div class="chead">${IMG(flagOf(c), 'flag big')}<div style="flex:1;min-width:0"><h1>${esc(c.name)}</h1>
     <div class="muted small">${c.continents.map(x => `<a href="#/continent/${contSlug(x)}">${esc(x)}</a>`).join(' · ')}</div></div>
-    <a class="btn" href="#/random" title="random country">🎲 Random</a></div>
+    ${(c.slug && ['united-states', 'canada', 'mexico', 'australia', 'japan', 'philippines'].includes(c.slug)) ? `<a class="btn" href="#/plates/${({ 'united-states': 'usa' })[c.slug] || c.slug}">🚗 Regional plates</a>` : ''}<a class="btn" href="#/random" title="random country">🎲 Random</a></div>
   <nav class="tabs">${TABS.filter(([k]) => has[k] !== 0).map(([k, l]) => `<a class="${k === tab ? 'active' : ''}" href="#/country/${c.slug}?tab=${k}">${l}${k === 'regions' ? ` <small>${regional.reduce((n, s) => n + s.items.filter(i => i.k === 'tip').length, 0)}</small>` : k === 'tips' ? ` <small>${allTips.length}</small>` : k === 'metas' ? ` <small>${c.lm.length}</small>` : ''}</a>`).join('')}</nav>
   <div id="tabbody"></div>
   <div class="pager">${prev ? `<a class="btn" href="#/country/${prev.slug}">← ${esc(prev.name)}</a>` : '<span></span>'}${nxt ? `<a class="btn" href="#/country/${nxt.slug}">${esc(nxt.name)} →</a>` : ''}</div>`;
@@ -228,10 +229,67 @@ route(/^\/country\/([a-z0-9-]+)$/, async (app, m, q) => {
 
 route(/^\/random$/, async () => { const cs = G.index.countries.filter(c => c.tips >= 10); location.replace('#/country/' + cs[Math.floor(Math.random() * cs.length)].slug); });
 
+/* ------------------------------------------------------------ regional plates */
+route(/^\/plates$/, async app => {
+  const P = (await getJSON('data/plates.json')).collections;
+  app.innerHTML = `<h1>🚗 Regional plates</h1>
+  <p class="muted">Countries where the plate design tells you the state or region. Browse every design, turn on <b>blur</b> to practise like in Street View, or take a quiz.</p>
+  <div class="grid">${P.map(c => `<a class="card" href="#/plates/${c.id}"><b>${esc(c.title)}</b><br><span class="muted small">${c.items.length} designs</span><div class="imgrow" style="margin-top:.5rem">${c.items.slice(0, 4).map(i => IMG(i.images[0], 'small')).join('')}</div></a>`).join('')}</div>`;
+});
+route(/^\/plates\/([a-z]+)$/, async (app, m, q) => {
+  const P = (await getJSON('data/plates.json')).collections; const col = P.find(c => c.id === m[1]);
+  if (!col) throw new Error('unknown plate collection');
+  const mode = q.mode === 'quiz' ? 'quiz' : 'browse'; const blur = q.blur === '1';
+  const hasFront = col.items.some(i => i.front !== null);
+  const c = col.country ? findC(col.country) : null;
+  const link = (extra) => `#/plates/${col.id}?${new URLSearchParams({ mode, blur: blur ? '1' : '0', ...extra })}`;
+  app.innerHTML = `<h1>${c ? IMG(flagOf(c), 'flag') + ' ' : ''}${esc(col.title)}</h1>
+  <p class="small">${col.intro}</p>
+  <div class="chips"><a class="chip ${mode === 'browse' ? 'active' : ''}" href="${link({ mode: 'browse' })}">🗂 Browse</a><a class="chip ${mode === 'quiz' ? 'active' : ''}" href="${link({ mode: 'quiz' })}">🎯 Quiz</a>
+    <a class="chip ${blur ? 'active' : ''}" href="${link({ blur: blur ? '0' : '1' })}">🌫 Blur ${blur ? 'on' : 'off'}</a>
+    ${col.country ? `<a class="chip" href="#/country/${col.country}">→ ${esc(c ? c.name : '')} page</a>` : ''}
+    <a class="chip" href="#/plates">All collections</a></div>
+  <div id="pbody"></div>`;
+  const body = $('#pbody'); const imgs = (it) => it.images.map(i => IMG(i, 'plate' + (blur ? ' blurred' : ''))).join('');
+  const label = it => `<b>${esc(it.name)}</b>${it.variant ? ` <span class="muted">· ${esc(it.variant)}</span>` : ''}`;
+  const frontBadge = it => it.front === true ? '<span class="badge ok">front plate required</span>' : it.front === false ? '<span class="badge no">front plate not required</span>' : '';
+  if (mode === 'browse') {
+    let filter = 'all';
+    body.innerHTML = `<div class="ptools"><input id="pq" type="search" placeholder="Search…" autocomplete="off">${hasFront ? `<select id="pf"><option value="all">Front plate: any</option><option value="yes">Front plate required</option><option value="no">Front plate NOT required</option></select>` : ''}</div><div class="pgrid" id="pgrid"></div>${blur ? '<p class="muted small">Tap a plate to reveal it.</p>' : ''}`;
+    const draw = () => { const t = ($('#pq').value || '').toLowerCase(); const f = $('#pf') ? $('#pf').value : 'all';
+      $('#pgrid').innerHTML = col.items.filter(it => (!t || (it.name + ' ' + it.variant).toLowerCase().includes(t)) && (f === 'all' || (f === 'yes' ? it.front === true : it.front === false)))
+        .map(it => `<div class="pcard"><div class="pimgs">${imgs(it)}</div><div class="pinfo">${label(it)} ${frontBadge(it)}${it.slug ? ` <a class="small" href="#/country/${it.slug}">→ page</a>` : ''}<div class="note-s">${it.note || ''}</div></div></div>`).join('') || '<p class="muted">No match.</p>';
+      $('#pgrid').querySelectorAll('img.blurred').forEach(im => im.onclick = e => { e.stopPropagation(); im.classList.toggle('blurred'); }); };
+    $('#pq').oninput = draw; if ($('#pf')) $('#pf').onchange = draw; draw();
+  } else {
+    const names = [...new Set(col.items.map(i => i.name))];
+    if (names.length < 4) { body.innerHTML = '<p class="muted">Not enough designs for a quiz.</p>'; return; }
+    const qs = shuffle(col.items.slice()).slice(0, 15); let i = 0, score = 0;
+    const show = () => {
+      if (i >= qs.length) { body.innerHTML = `<div class="card" style="text-align:center"><h2>${score} / ${qs.length}</h2><p><a class="btn primary" href="${link({})}&r=${Math.random()}">Again</a> <a class="btn" href="${link({ mode: 'browse' })}">Browse</a></p></div>`; return; }
+      const cur = qs[i]; const opts = shuffle([cur.name, ...shuffle(names.filter(n => n !== cur.name)).slice(0, 3)]);
+      body.innerHTML = `<div class="fc"><div class="stat"><span>${i + 1} / ${qs.length}</span><span>✓ ${score}</span></div><div class="bar"><i style="width:${i / qs.length * 100}%"></i></div>
+        <div class="qhead" style="font-size:1.1rem">${col.id === 'japan' ? 'Which region is this pole plate from?' : col.id === 'world' ? 'Which country?' : 'Which region is this plate from?'}</div>
+        <div class="q">${imgs(cur).replace('loading="lazy"', 'loading="eager"')}</div>
+        <div class="choices">${opts.map(o => `<button data-o="${esc(o)}">${esc(o)}</button>`).join('')}</div><div id="pa"></div></div>`;
+      body.querySelectorAll('img.blurred').forEach(im => im.onclick = () => im.classList.toggle('blurred'));
+      body.querySelectorAll('[data-o]').forEach(b => b.onclick = () => {
+        const ok = b.dataset.o === cur.name; if (ok) score++;
+        body.querySelectorAll('[data-o]').forEach(x => { x.disabled = true; if (x.dataset.o === cur.name) x.classList.add('ok'); }); if (!ok) b.classList.add('bad');
+        body.querySelectorAll('img.blurred').forEach(im => im.classList.remove('blurred'));
+        $('#pa').innerHTML = `<div class="a"><div class="ans">${label(cur)}</div> ${frontBadge(cur)}<div class="note">${cur.note || ''}</div></div><p style="text-align:center"><button class="btn primary" id="pn">Next →</button></p>`;
+        $('#pn').onclick = () => { i++; show(); };
+      });
+    };
+    show();
+  }
+});
+
 /* ------------------------------------------------------------ topics */
 const TOPICS = { bollards: 'Bollards', plates: 'License plates', poles: 'Poles & insulators', 'road-lines': 'Road lines', signs: 'Road signs & guardrails', language: 'Languages & alphabets', cars: 'Google cars & coverage', landscape: 'Landscape & vegetation', phone: 'Phone / area codes' };
 route(/^\/topics$/, async app => {
   app.innerHTML = `<h1>Topics</h1><p class="muted small">Each topic shows, per continent, every country's relevant images and plonkit tips side by side.</p><div class="grid">${Object.entries(TOPICS).map(([k, v]) => `<a class="card" href="#/topic/${k}?c=europe"><b>${v}</b></a>`).join('')}
+  <a class="card" href="#/plates"><b>🚗 Regional plates</b><br><span class="muted small">US states, Canada, Mexico, Australia…</span></a>
   <a class="card" href="#/confusables"><b>Confusables</b><br><span class="muted small">Hand-picked look-alikes.</span></a></div>`;
 });
 route(/^\/topic\/([a-z-]+)$/, async (app, m, q) => {
