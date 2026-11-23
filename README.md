@@ -10,7 +10,7 @@ content and pictures belong to those projects.
 
 Tabs: 📋 Cheat sheet (facts, top 10, pictures at a glance) · 🗂 All tips (grouped by plates, bollards, poles,
 lines, signs, language, car, …) · 🗺 Regions · 🤔 Confused with (every plonkit comparison with another country) ·
-🔎 Metas · 🎯 Quiz · 📚 More (decks, map lists, sources). 🎲 Random opens a random country.
+🔎 Metas · 📚 More (decks, map lists, sources). 🎲 Random opens a random country.
 
 ## Running it
 
