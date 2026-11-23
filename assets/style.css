@@ -142,3 +142,5 @@ details>.body{padding:0 .9rem .9rem}
 .cmp .c .d{font-size:.85rem;color:var(--muted);text-align:left}
 .kbd{font-size:.75rem;color:var(--muted)}
 .tip.noimg{grid-template-columns:1fr}
+.search-results img{width:34px;height:24px;object-fit:cover;border-radius:3px;flex:none;background:#334155}
+.search-results a{min-height:40px}

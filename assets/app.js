@@ -82,14 +82,14 @@ function initWorldMap(svg) {
   const tip = $('#maptip');
   const codeOf = el => { while (el && el !== svg) { if (el.dataset && el.dataset.cc) return el.dataset.cc; el = el.parentNode; } return null; };
   svg.addEventListener('mousemove', e => {
-    const cc = codeOf(e.target);
+    const cc = codeOf(document.elementFromPoint(e.clientX, e.clientY) || e.target);
     if (!cc) { tip.style.display = 'none'; return; }
     const c = byCode[cc]; tip.textContent = c.name; tip.style.display = 'block';
     const r = svg.parentNode.getBoundingClientRect(); tip.style.left = (e.clientX - r.left + 12) + 'px'; tip.style.top = (e.clientY - r.top + 12) + 'px';
   });
   svg.addEventListener('mouseleave', () => tip.style.display = 'none');
   let moved = false;
-  svg.addEventListener('click', e => { if (moved) return; const cc = codeOf(e.target); if (cc) location.hash = '#/country/' + byCode[cc].slug; });
+  svg.addEventListener('click', e => { if (moved) return; const cc = codeOf(document.elementFromPoint(e.clientX, e.clientY) || e.target); if (cc) location.hash = '#/country/' + byCode[cc].slug; });
   // pan / zoom
   const vb0 = [0, 0, 2754, 1398]; let vb = vb0.slice();
   const apply = () => svg.setAttribute('viewBox', vb.join(' '));
@@ -101,7 +101,7 @@ function initWorldMap(svg) {
   $('#zout').onclick = () => { const r = svg.getBoundingClientRect(); zoom(1.5, r.left + r.width / 2, r.top + r.height / 2); };
   $('#zreset').onclick = () => { vb = vb0.slice(); apply(); };
   const pts = new Map(); let last = null, dist0 = 0;
-  svg.addEventListener('pointerdown', e => { pts.set(e.pointerId, [e.clientX, e.clientY]); last = [e.clientX, e.clientY]; moved = false; svg.setPointerCapture(e.pointerId); });
+  svg.addEventListener('pointerdown', e => { pts.set(e.pointerId, [e.clientX, e.clientY]); last = [e.clientX, e.clientY]; moved = false; });
   svg.addEventListener('pointermove', e => {
     if (!pts.has(e.pointerId)) return; pts.set(e.pointerId, [e.clientX, e.clientY]);
     const r = svg.getBoundingClientRect();
@@ -250,7 +250,7 @@ function initSearch() {
     G.index.countries.filter(c => c.name.toLowerCase().includes(v) || (c.code || '').toLowerCase() === v).slice(0, 8).forEach(c => items.push({ h: '#/country/' + c.slug, t: c.name, k: 'country', img: flagOf(c) }));
     Object.entries(TOPICS).filter(([k, t]) => t.toLowerCase().includes(v)).forEach(([k, t]) => items.push({ h: '#/topic/' + k + '?c=europe', t, k: 'topic' }));
     (G.decks || []).filter(d => d.title.toLowerCase().includes(v)).slice(0, 8).forEach(d => items.push({ h: '#/deck/' + d.id, t: d.title, k: 'deck · ' + d.count }));
-    box.innerHTML = items.map(i => `<a href="${i.h}">${i.img ? IMG(i.img) : ''}${esc(i.t)}<span class="kind">${esc(i.k)}</span></a>`).join('') || '<a>No results</a>';
+    box.innerHTML = items.map(i => `<a href="${i.h}">${i.img ? IMG(i.img).replace('loading="lazy"', 'loading="eager"') : ''}${esc(i.t)}<span class="kind">${esc(i.k)}</span></a>`).join('') || '<a>No results</a>';
     box.hidden = false; active = -1;
   };
   inp.addEventListener('input', run);
