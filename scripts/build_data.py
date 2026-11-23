@@ -266,6 +266,88 @@ for slug, g in guides.items():
     g['hero'] = None
 print('image borrowing', dict(match_stats))
 
+# ---------------------------------------------------------------- study annotations: category per tip, "confused with", top 10
+CATS = [  # (id, regex) – the earliest keyword hit in the first sentence wins
+    ('plates', r'licen[cs]e plates?|number plates?|\bplates?\b'),
+    ('bollards', r'bollards?'),
+    ('poles', r'\bpoles?\b|insulators?|pole ?tops?|transformers?|power lines?|utility'),
+    ('lines', r'road ?lines?|middle lines?|outer lines?|outside lines?|cent(?:re|er) lines?|edge lines?|dashed|road markings?|\blines\b'),
+    ('signs', r'\bsigns?\b|chevrons?|guardrails?|kilomet(?:re|er) markers?|km markers?|sign ?posts?|crossings?|speed limits?|traffic lights?|kerbs?|curbs?|road markers?|reflectors?|barriers?'),
+    ('language', r'languages?|alphabets?|letters?|scripts?|words? for|spelling|diacritics?|street names?|suffix'),
+    ('car', r'google car|generation|\bgen ?[1-4]\b|camera|trekker|blur|antenna|snorkel|coverage|copyright|tripod|smallcam|shitcam'),
+    ('nature', r'landscape|vegetation|\btrees?\b|palms?|forests?|soil|mountains?|desert|grass|crops?|fields?|climate|terrain|hills?|plants?|savann?ah?|jungle|beach|coast|lakes?|rivers?|volcan'),
+    ('vehicles', r'trucks?|taxis?|\bbus(?:es)?\b|bus stops?|motorbikes?|motorcycles?|tuk-?tuks?|vehicles?|\bcars\b'),
+    ('buildings', r'houses?|buildings?|architecture|roofs?|church(?:es)?|mosques?|temples?|walls?|fences?|towns?|villages?'),
+]
+def tip_cat(raw):
+    t = re.sub(r'\[([^\]]+)\]\([^)]*\)', r'\1', raw or '').replace('**', '')
+    first = re.split(r'(?<=[.!?])\s', t, maxsplit=1)[0][:220]
+    best, pos = 'other', 10 ** 9
+    for cid, rx in CATS:
+        m = re.search(rx, first, re.I)
+        if m and m.start() < pos: best, pos = cid, m.start()
+    if best == 'other':
+        for cid, rx in CATS:
+            m = re.search(rx, t[:400], re.I)
+            if m and m.start() < pos: best, pos = cid, m.start()
+    return best
+
+# country-name matcher for "confused with"
+NAME_ALIASES = {'united-states': ['United States', 'the US', 'USA', 'U.S.'], 'united-kingdom': ['United Kingdom', 'the UK', 'Britain', 'England', 'Scotland', 'Wales', 'Northern Ireland'],
+                'czechia': ['Czechia', 'Czech Republic'], 'israel-west-bank': ['Israel', 'West Bank'], 'north-macedonia': ['North Macedonia', 'Macedonia'],
+                'south-korea': ['South Korea', 'Korea'], 'turkey': ['Turkey', 'Türkiye'], 'eswatini': ['Eswatini', 'Swaziland'], 'curacao': ['Curaçao', 'Curacao'],
+                'reunion': ['Réunion', 'Reunion'], 'sao-tome-and-principe': ['São Tomé', 'Sao Tome']}
+name_rx = []
+for slug_, g_ in guides.items():
+    if slug_ in ('beginners-guide', 'spillover-countries'): continue
+    for nm in set(NAME_ALIASES.get(slug_, []) + [g_['name']]):
+        if len(nm) < 3 and nm not in ('UK',): continue
+        name_rx.append((slug_, re.compile(r'(?<![A-Za-z])(?<!New )(?<!Northern )(?<!South )(?<!West )(?<!East )' + re.escape(nm) + r'(?![A-Za-z])' if nm not in ('Ireland',) else r'(?<!Northern )(?<![A-Za-z])Ireland(?![A-Za-z])')))
+US_STATE_WORDS = {'georgia'}  # Georgia is also a US state
+def mentioned(text, self_slug):
+    out = []
+    for sl, rx in name_rx:
+        if sl == self_slug: continue
+        if sl == 'georgia' and self_slug == 'united-states': continue
+        if rx.search(text): out.append(sl)
+    return out
+def md_inline(t):
+    h = html.escape(t, quote=False)
+    h = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', h)
+    h = re.sub(r'\[([^\]]+)\]\([^)]*\)', r'\1', h)
+    return h.replace('!!', '').strip()
+
+UNIQUE_RX = re.compile(r'\b(unique|only|exclusive(?:ly)?|never|always|distinct(?:ive)?|specific to|not found|very common|extremely common)\b', re.I)
+for slug_, g_ in guides.items():
+    vs = collections.defaultdict(list)
+    for st in g_['steps']:
+        if st['kind'] != 'tips': continue
+        regional = not (st['title'] or '').lower().startswith('identifying')
+        for it in st['items']:
+            if it['k'] != 'tip': continue
+            it['cat'] = tip_cat(it.get('raw', ''))
+            raw = re.sub(r'\s+', ' ', it.get('raw', '') or '')
+            for sent in re.split(r'(?<=[.!?])\s+|(?=NOTE:)', raw):
+                sent = sent.strip()
+                if len(sent) < 25: continue
+                for other in ([] if regional else mentioned(sent, slug_)):
+                    if len(vs[other]) < 4:
+                        vs[other].append({'txt': md_inline(re.sub(r'^NOTE:\s*', '', sent)), 'cat': it['cat'], 'img': it.get('img'), 'pk': it.get('pk_img')})
+    g_['vs'] = sorted(({'slug': o, 'items': v} for o, v in vs.items()), key=lambda x: -len(x['items']))[:8]
+    # top 10: from the "Identifying" step, prefer unique/only clues, max 2 per category, keep plonkit order
+    ident = next((st for st in g_['steps'] if st['kind'] == 'tips' and (st['title'] or '').lower().startswith('identifying')), None)
+    cand = [it for it in (ident['items'] if ident else []) if it['k'] == 'tip']
+    scored = sorted(range(len(cand)), key=lambda i: -(2 * bool(UNIQUE_RX.search(cand[i].get('raw', ''))) + bool(cand[i].get('img') or cand[i].get('pk_img')) - i * 0.15))
+    pick, per = [], collections.Counter()
+    for i in scored:
+        if per[cand[i]['cat']] >= 2: continue
+        pick.append(i); per[cand[i]['cat']] += 1
+        if len(pick) == 10: break
+    for i in scored:
+        if len(pick) >= 10: break
+        if i not in pick: pick.append(i)
+    g_['top10'] = [cand[i] for i in sorted(pick)]
+
 # ---------------------------------------------------------------- write per-country
 os.makedirs(os.path.join(OUT, 'countries'), exist_ok=True)
 index = []
@@ -286,19 +368,20 @@ for slug in all_slugs:
         'hero': g['hero'] if g else None, 'updated': g['updated'] if g else None, 'flag': (q['flag'] if q else None) or local_flag(g['code'] if g else None),
         'drive': drive.get(name) or drive.get(q['name'] if q else '') or ef.get('drive'), 'extra': NOTES.get(slug, []), 'langs': ef.get('languages'), 'script': ef.get('script'), 'phone': phone.get(slug) or phone.get(name) or phone.get(q['name'] if q else '') or ef.get('phone'),
         'gm': q, 'steps': g['steps'] if g else [], 'docs': g['docs'] if g else [],
-        'lm': by_country.get(slug, []),
+        'lm': by_country.get(slug, []), 'vs': g['vs'] if g else [],
     }
     # top identifiers = tips of the first "Identifying" step
     top = []
     for s in country['steps']:
         if s['kind'] == 'tips' and (s['title'] or '').lower().startswith('identifying'):
             top = [it for it in s['items'] if it['k'] == 'tip'][:12]; break
-    country['top'] = top
+    country['top'] = g['top10'] if g and g.get('top10') else top
     slim = dict(country); slim['steps'] = [dict(s_, items=[{k: v for k, v in it.items() if k != 'raw'} for it in s_.get('items', [])]) if s_['kind'] == 'tips' else s_ for s_ in country['steps']]
     json.dump(slim, open(os.path.join(OUT, 'countries', slug + '.json'), 'w'), ensure_ascii=False, separators=(',', ':'))
     index.append({'slug': slug, 'name': name, 'code': country['code'], 'continents': conts, 'flag': (q['flag'] if q else None) or local_flag(g['code'] if g else None),
                   'drive': country['drive'], 'phone': country['phone'], 'hasGuide': bool(g), 'hasGm': bool(q),
-                  'tips': sum(len([i for i in s.get('items', []) if i['k'] == 'tip']) for s in country['steps']), 'metas': len(country['lm'])})
+                  'tips': sum(len([i for i in s.get('items', []) if i['k'] == 'tip']) for s in country['steps']), 'metas': len(country['lm']),
+                  'vs': [v['slug'] for v in country['vs']][:5]})
 json.dump({'countries': index, 'continents': CONTINENTS}, open(os.path.join(OUT, 'index.json'), 'w'), ensure_ascii=False, separators=(',', ':'))
 print('countries written', len(index))
 

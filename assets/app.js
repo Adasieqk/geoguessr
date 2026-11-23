@@ -47,7 +47,8 @@ window.addEventListener('hashchange', render);
 route(/^\/$/, async app => {
   const idx = G.index;
   app.innerHTML = `
-    <p class="muted small">Personal GeoGuessr study notes compiled from plonkit.net (text), learnablemeta.com (pictures + metas) and geomastr.com (bollards, plates, signs). Click a country on the map or use search.</p>
+    ${(() => { const n = todaysCountry(), d = dueReviews().length; return n ? `<a class="today-card" href="#/today">${IMG(flagOf(n), 'flag big')}<div><div class="muted small">📅 Today's country</div><div class="tc-name">${esc(n.name)}</div><div class="muted small">${d ? d + ' review(s) due' : 'no reviews due'}</div></div><span class="btn primary">Open →</span></a>` : ''; })()}
+    <p class="muted small">Click a country on the map or use search. Text from plonkit.net, pictures from learnablemeta.com and geomastr.com.</p>
     <div class="mapwrap" id="mapwrap"><div class="loading">Loading map…</div><div class="maptip" id="maptip"></div>
       <div class="mapctl"><button id="zin">+</button><button id="zout">−</button><button id="zreset" title="reset">⟲</button></div></div>
     <div class="legend"><span><i style="background:#2f855a"></i>Guide available</span><span><i style="background:#334155"></i>No guide (not in GeoGuessr or not covered)</span><span class="kbd">Drag to pan · pinch/wheel to zoom</span></div>
@@ -140,70 +141,174 @@ route(/^\/continent\/([a-z-]+)$/, async (app, m) => {
   <h2>Countries</h2><div class="grid narrow">${cs.map(countryCard).join('')}</div>`;
 });
 
+/* ------------------------------------------------------------ study plan (1 country a day) */
+const STUDY_ORDER_CONTS = ['Europe', 'North America', 'South America', 'Asia', 'Oceania', 'Africa', 'Antarctica'];
+const LEARN_KEY = 'geostudy.learn.v1';
+const REVIEW_DAYS = [1, 3, 7, 14, 30, 60, 120];
+const today = () => new Date().toISOString().slice(0, 10);
+const addDays = (d, n) => { const x = new Date(d + 'T12:00:00'); x.setDate(x.getDate() + n); return x.toISOString().slice(0, 10); };
+const Learn = {
+  load() { try { return JSON.parse(localStorage.getItem(LEARN_KEY) || '{}'); } catch (e) { return {}; } },
+  save(d) { localStorage.setItem(LEARN_KEY, JSON.stringify(d)); },
+  get(slug) { return this.load()[slug]; },
+  mark(slug) { const d = this.load(); d[slug] = { learned: today(), step: 0, next: addDays(today(), REVIEW_DAYS[0]) }; this.save(d); },
+  unmark(slug) { const d = this.load(); delete d[slug]; this.save(d); },
+  review(slug, ok) { const d = this.load(); const e = d[slug]; if (!e) return; e.step = ok ? Math.min(REVIEW_DAYS.length - 1, e.step + 1) : 0; e.next = addDays(today(), REVIEW_DAYS[e.step]); e.last = today(); this.save(d); },
+};
+function studyOrder() {
+  const seen = new Set(), out = [];
+  for (const cont of STUDY_ORDER_CONTS) {
+    G.index.countries.filter(c => c.continents[0] === cont || (c.continents.includes(cont) && !STUDY_ORDER_CONTS.includes(c.continents[0])))
+      .filter(c => !seen.has(c.slug)).sort((a, b) => b.tips - a.tips)
+      .forEach(c => { seen.add(c.slug); out.push({ ...c, cont }); });
+  }
+  G.index.countries.filter(c => !seen.has(c.slug)).forEach(c => out.push({ ...c, cont: c.continents[0] || 'Other' }));
+  return out;
+}
+const todaysCountry = () => { const L = Learn.load(); return studyOrder().find(c => !L[c.slug]); };
+const dueReviews = () => { const L = Learn.load(), t = today(); return studyOrder().filter(c => L[c.slug] && L[c.slug].next <= t); };
+
+route(/^\/today$/, async app => {
+  const order = studyOrder(), L = Learn.load(), next = todaysCountry(), due = dueReviews();
+  const done = order.filter(c => L[c.slug]).length;
+  app.innerHTML = `<h1>📅 Today</h1>
+  <p class="muted">One country a day: read the cheat sheet, do the 10-question quiz, mark it as learned. It comes back for a short review after 1, 3, 7, 14… days.</p>
+  ${next ? `<a class="today-card" href="#/country/${next.slug}">${IMG(flagOf(next), 'flag big')}<div><div class="muted small">Today's country · ${esc(next.cont)}</div><div class="tc-name">${esc(next.name)}</div><div class="muted small">${next.tips} tips · ~15 min</div></div><span class="btn primary">Start →</span></a>` : '<div class="card">🎉 Every country is learned.</div>'}
+  <h2>🔁 Reviews due <span class="muted small">(${due.length})</span></h2>
+  ${due.length ? `<div class="grid narrow">${due.map(c => `<a class="ccard" href="#/country/${c.slug}?tab=quiz">${IMG(flagOf(c))}<div><div>${esc(c.name)}</div><div class="meta">quick quiz</div></div></a>`).join('')}</div>` : '<p class="muted">Nothing to review today.</p>'}
+  <h2>📈 Progress <span class="muted small">${done} / ${order.length} countries</span></h2>
+  <div class="bar" style="height:10px"><i style="width:${done / order.length * 100}%"></i></div>
+  ${STUDY_ORDER_CONTS.map(cont => { const cs = order.filter(c => c.cont === cont); if (!cs.length) return ''; const d = cs.filter(c => L[c.slug]).length;
+    return `<details ${cs.includes(next) ? 'open' : ''}><summary>${esc(cont)} <span class="muted small">${d} / ${cs.length}</span></summary><div class="body"><div class="plan">${cs.map((c, i) => `<a class="plan-row ${L[c.slug] ? 'done' : ''} ${c === next ? 'cur' : ''}" href="#/country/${c.slug}"><span class="pn">${i + 1}</span>${IMG(flagOf(c), 'flag')}<span class="pt">${esc(c.name)}</span><span class="ps">${L[c.slug] ? '✓ ' + (L[c.slug].next <= today() ? 'review due' : 'next review ' + L[c.slug].next) : c === next ? 'today' : c.tips + ' tips'}</span></a>`).join('')}</div></div></details>`; }).join('')}
+  <p class="muted small">Order: Europe → North America → South America → Asia → Oceania → Africa; inside each continent, countries with the most content (≈ most coverage) first. You can open any country at any time. Progress is stored in this browser.</p>`;
+});
+
 /* ------------------------------------------------------------ country page */
+const CAT_LABELS = { plates: '🚗 Plates', bollards: '🟥 Bollards', poles: '⚡ Poles', lines: '🛣 Road lines', signs: '⚠️ Signs & road furniture', language: '🔤 Language', car: '📷 Google car & coverage', vehicles: '🚚 Vehicles', buildings: '🏠 Buildings', nature: '🌿 Landscape', other: '📌 Other' };
+const tidy = h => (h || '').replace(/!!/g, '').replace(/<p>\s*NOTE:\s*/g, '<p class="note"><b>Note:</b> ').replace(/([^>\s])\s*NOTE:\s*/g, '$1</p><p class="note"><b>Note:</b> ');
 const pkLink = (slug, label = 'View the picture on plonkit') => `<a class="pkbtn" href="https://www.plonkit.net/${slug || ''}" target="_blank" rel="noopener">🖼 ${label} ↗</a>`;
-const tipHTML = (t0, slug) => { const t = { ...t0, img: imgOf(t0.img, t0.pk_img) }; return `<div class="tip ${t.img ? '' : 'noimg'}">${t.img ? `<div>${IMG(t.img)}${t.imgs && t.imgs.length > 1 ? `<div class="imgrow" style="margin-top:.3rem">${t.imgs.slice(1).map(i => IMG(i, 'small')).join('')}</div>` : ''}</div>` : ''}<div class="txt">${t.html || ''}<div class="src">${t.link ? `<a href="${esc(t.link)}" target="_blank" rel="noopener">📍 Street View</a>` : ''}</div>${!t.img && t0.pk_img ? `<div style="margin-top:.4rem">${pkLink(slug)}</div>` : ''}</div></div>`; };
+const tipHTML = (t0, slug, num) => { const t = { ...t0, img: imgOf(t0.img, t0.pk_img) }; return `<div class="tip ${t.img ? '' : 'noimg'}">${t.img ? `<div>${IMG(t.img)}${t.imgs && t.imgs.length > 1 ? `<div class="imgrow" style="margin-top:.3rem">${t.imgs.slice(1).map(i => IMG(i, 'small')).join('')}</div>` : ''}</div>` : ''}<div class="txt">${num ? `<span class="num">${num}</span>` : ''}${t.cat && !num ? `<span class="cat">${CAT_LABELS[t.cat] || ''}</span>` : ''}${tidy(t.html)}<div class="src">${t.link ? `<a href="${esc(t.link)}" target="_blank" rel="noopener">📍 Street View</a>` : ''}</div>${!t.img && t0.pk_img ? `<div style="margin-top:.4rem">${pkLink(slug)}</div>` : ''}</div></div>`; };
 const metaHTML = m => `<div class="meta-item"><b>${esc(m.name)}</b> <span class="muted small">· ${esc(m.map)}</span><div class="note">${m.note || ''}</div><div class="imgs">${(m.images || []).map(i => IMG(i)).join('')}</div></div>`;
-function stepsHTML(steps, open, slug) {
-  return steps.map((s, i) => {
-    if (s.kind === 'map') return `<details><summary>${esc(s.title)}</summary><div class="body">${s.html}</div></details>`;
-    const body = s.items.map(it => {
-      if (it.k === 'tip') return tipHTML(it, slug);
-      if (it.k === 'h') return `<h3 class="subh">${esc(it.title)}</h3>`;
-      if (it.k === 'img') it = { ...it, img: imgOf(it.img, it.pk_img) };
-      if (it.k === 'img') return it.img || it.html ? `<div class="card" style="text-align:center">${IMG(it.img)}${it.html ? `<div class="small">${it.html}</div>` : ''}${it.img ? '' : `<div class="muted small">🖼 infographic – see <a href="https://www.plonkit.net/${slug}" target="_blank" rel="noopener">plonkit</a></div>`}</div>` : '';
-      if (it.k === 'text') return `<div class="card">${it.html}</div>`;
-      return '';
-    }).join('');
-    return `<details id="step${i}" ${open || i === 0 ? 'open' : ''}><summary>${esc(s.title)} <span class="muted small">(${s.items.filter(x => x.k === 'tip').length} tips)</span></summary><div class="body">${body}</div></details>`;
+function itemsHTML(items, slug) {
+  return items.map(it => {
+    if (it.k === 'tip') return tipHTML(it, slug);
+    if (it.k === 'h') return `<h3 class="subh">${esc(it.title)}</h3>`;
+    if (it.k === 'img') { const im = imgOf(it.img, it.pk_img); return im || it.html ? `<div class="card" style="text-align:center">${IMG(im)}${it.html ? `<div class="small">${it.html}</div>` : ''}</div>` : ''; }
+    if (it.k === 'text') return `<div class="card">${tidy(it.html)}</div>`;
+    return '';
   }).join('');
 }
-route(/^\/country\/([a-z0-9-]+)$/, async (app, m) => {
-  const c = await country(m[1]); const q = c.gm || {};
-  const signs = q.signs || {};
-  const lmByMap = {};
-  (c.lm || []).forEach(x => (lmByMap[x.map] = lmByMap[x.map] || []).push(x));
-  const regional = c.steps.filter(s => s.kind === 'tips' && /regional|region-|province|state/i.test(s.title || ''));
-  const decks = (G.decks || []).filter(d => d.id === 'pk-top-' + c.slug || d.id === 'pk-' + c.slug || (d.id.startsWith('lm-') && (c.lm || []).some(x => x.map === d.title)));
-  const cur = (G.curated.confusables || []).filter(x => x.countries.includes(c.slug));
+const TABS = [['sheet', '📋 Cheat sheet'], ['tips', '🗂 All tips'], ['regions', '🗺 Regions'], ['vs', '🤔 Confused with'], ['metas', '🔎 Metas'], ['quiz', '🎯 Quiz'], ['more', '📚 More']];
+route(/^\/country\/([a-z0-9-]+)$/, async (app, m, q) => {
+  const c = await country(m[1]); const g = c.gm || {}; const signs = g.signs || {};
+  const tipSteps = c.steps.filter(s => s.kind === 'tips');
+  const regional = tipSteps.filter(s => /regional|region-|province|state|county|parish|canton|department|governorate|municipality|district|prefecture|voivodeship/i.test(s.title || ''));
+  const general = tipSteps.filter(s => !regional.includes(s));
+  const allTips = general.flatMap(s => s.items.filter(i => i.k === 'tip'));
+  const conf = (G.curated.confusables || []).filter(x => x.countries.includes(c.slug));
+  const order = studyOrder(); const pos = order.findIndex(x => x.slug === c.slug);
+  const prev = order[pos - 1], nxt = order[pos + 1];
+  const has = { regions: regional.length, vs: c.vs.length || conf.length, metas: c.lm.length };
+  let tab = q.tab || 'sheet'; if (has[tab] === 0) tab = 'sheet';
+  const L = Learn.get(c.slug);
   app.innerHTML = `
-  ${c.hero ? `<div class="hero">${IMG(c.hero)}<div class="ht">${IMG(flagOf(c), 'flag')}<h1>${esc(c.name)}</h1></div></div>` : `<h1>${IMG(flagOf(c), 'flag')} ${esc(c.name)}</h1>`}
-  <div class="subnav"><a href="#facts">Facts</a><a href="#top">Top clues</a><a href="#ref">Quick reference</a><a href="#guide">Full guide</a>${regional.length ? '<a href="#regional">Regional</a>' : ''}${c.lm.length ? '<a href="#metas">Metas</a>' : ''}<a href="#practice">Practice</a></div>
-  <div class="chips">${c.continents.map(x => `<a class="chip" href="#/continent/${contSlug(x)}">${esc(x)}</a>`).join('')}${cur.length ? `<a class="chip" href="#/confusables">🤔 ${cur.length} confusable group(s)</a>` : ''}</div>
-  <h2 id="facts">Facts</h2>
-  <div class="facts">
-    <div class="fact"><div class="k">Phone code</div><div class="v">${esc(c.phone || '?')}</div></div>
-    <div class="fact"><div class="k">Driving side</div><div class="v">${esc(c.drive || '?')}</div></div>
-    <div class="fact"><div class="k">Road lines</div><div class="v" style="font-size:.95rem">${esc(q.road_lines || '—')}</div></div>
-    <div class="fact"><div class="k">Script / language</div><div class="v" style="font-size:.95rem">${esc(q.alphabet?.script || c.script || '—')}<br><span class="muted small">${esc(q.alphabet?.languages || c.langs || '')}</span></div></div>
-    <div class="fact"><div class="k">ISO</div><div class="v">${esc(c.code || '')}</div></div>
-    <div class="fact"><div class="k">Guide updated</div><div class="v" style="font-size:.95rem">${esc(c.updated || '—')}</div></div>
-  </div>
-  ${q.alphabet?.img ? `<div class="imgrow">${IMG(q.alphabet.img, 'alpha')}</div>` : ''}
-  ${c.extra?.length ? `<h2 id="extra">Extra notes</h2><p class="muted small">Written from general knowledge, not from plonkit.</p>${c.extra.map(x => `<div class="card"><b>${esc(x.title)}</b><p>${x.html}</p></div>`).join('')}` : ''}
-  <h2 id="top">Top clues</h2>
-  <p class="muted small">The first tips of the plonkit "Identifying" step – these are the things to learn first.</p>
-  ${c.top.length ? c.top.map(t => tipHTML(t, c.slug)).join('') : '<p class="muted">No plonkit guide for this country.</p>'}
-  <h2 id="ref">Quick reference</h2>
-  ${c.gm ? `<div class="grid">
-    <div class="card"><h3>Bollards</h3><div class="imgrow">${(q.bollards || []).map(i => IMG(i)).join('') || '<span class="muted">none listed</span>'}</div><div class="small muted">${esc(q.bollards_note || '')}</div></div>
-    <div class="card"><h3>License plates</h3><div class="imgrow">${(q.plates || []).map(i => IMG(i)).join('') || '<span class="muted">none</span>'}</div><div class="small muted">${esc(q.plates_note || '')}</div></div>
-    <div class="card"><h3>Road signs</h3><div class="imgrow">${['stop', 'yield', 'pedestrian', 'chevron', 'bend', 'roundabout'].map(k => (signs[k] || []).map(i => IMG(i, 'sign', k)).join('')).join('')}</div><div class="small muted">stop · yield · pedestrian · chevron · bend · roundabout</div></div>
-    <div class="card"><h3>Fuel &amp; post</h3><div class="small">${(q.fuel || []).map(esc).join(', ') || '—'}</div>${q.post ? `<div class="imgrow" style="margin-top:.4rem">${IMG(q.post, 'small')}</div>` : ''}</div>
-  </div>` : '<p class="muted">No geomastr data.</p>'}
-  <h2 id="guide">Full guide <span class="muted small">(plonkit)</span></h2>
-  ${c.steps.length ? stepsHTML(c.steps, false, c.slug) : '<p class="muted">No guide.</p>'}
-  ${regional.length ? `<h2 id="regional">Regional clues</h2><p class="muted small">Same content as in the full guide, kept open for region-guessing practice.</p>${stepsHTML(regional, true, c.slug)}` : ''}
-  ${c.lm.length ? `<h2 id="metas">Metas from learnablemeta <span class="muted small">(${c.lm.length})</span></h2>${Object.entries(lmByMap).map(([k, v]) => `<details><summary>${esc(k)} <span class="muted small">(${v.length})</span></summary><div class="body">${v.map(metaHTML).join('')}</div></details>`).join('')}` : ''}
-  <h2 id="practice">Practice</h2>
-  <div class="card">${decks.length ? decks.map(d => deckRow(d)).join('') : '<span class="muted">No decks.</span>'}</div>
-  ${c.docs?.length ? `<h3>Community docs</h3><ul>${c.docs.filter(d => d.url).map(d => `<li><a href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.title)}</a></li>`).join('')}</ul>` : ''}
-  <p class="muted small">Sources: <a href="https://www.plonkit.net/${c.slug}" target="_blank" rel="noopener">plonkit.net/${c.slug}</a>${c.gm ? ` · <a href="https://geomastr.com/country/${c.slug}/" target="_blank" rel="noopener">geomastr</a>` : ''} · learnablemeta.com</p>`;
-  // lazy-load details bodies for very long pages: nothing needed, images are lazy
-  wireAnchors(app);
+  <div class="chead">${IMG(flagOf(c), 'flag big')}<div style="flex:1;min-width:0"><h1>${esc(c.name)}</h1>
+    <div class="muted small">${c.continents.map(x => `<a href="#/continent/${contSlug(x)}">${esc(x)}</a>`).join(' · ')}${pos >= 0 ? ` · day ${pos + 1} of the plan` : ''}</div></div>
+    <button class="btn ${L ? '' : 'primary'}" id="learnbtn">${L ? '✓ Learned' : 'Mark as learned'}</button></div>
+  <nav class="tabs">${TABS.filter(([k]) => has[k] !== 0).map(([k, l]) => `<a class="${k === tab ? 'active' : ''}" href="#/country/${c.slug}?tab=${k}">${l}${k === 'regions' ? ` <small>${regional.reduce((n, s) => n + s.items.filter(i => i.k === 'tip').length, 0)}</small>` : k === 'tips' ? ` <small>${allTips.length}</small>` : k === 'metas' ? ` <small>${c.lm.length}</small>` : ''}</a>`).join('')}</nav>
+  <div id="tabbody"></div>
+  <div class="pager">${prev ? `<a class="btn" href="#/country/${prev.slug}">← ${esc(prev.name)}</a>` : '<span></span>'}${nxt ? `<a class="btn" href="#/country/${nxt.slug}">${esc(nxt.name)} →</a>` : ''}</div>`;
+  $('#learnbtn').onclick = () => { if (Learn.get(c.slug)) Learn.unmark(c.slug); else Learn.mark(c.slug); render(); };
+  const body = $('#tabbody');
+
+  if (tab === 'sheet') {
+    body.innerHTML = `
+    <div class="facts">
+      <div class="fact"><div class="k">Driving side</div><div class="v">${esc(c.drive || '?')}</div></div>
+      <div class="fact"><div class="k">Phone code</div><div class="v">${esc(c.phone || '?')}</div></div>
+      <div class="fact"><div class="k">Road lines</div><div class="v sm">${esc(g.road_lines || '—')}</div></div>
+      <div class="fact"><div class="k">Script · language</div><div class="v sm">${esc(g.alphabet?.script || c.script || '—')}<br><span class="muted small">${esc(g.alphabet?.languages || c.langs || '')}</span></div></div>
+    </div>
+    ${c.vs.length ? `<div class="vsline">🤔 Often confused with: ${c.vs.slice(0, 5).map(v => { const o = findC(v.slug); return o ? `<a href="#/country/${c.slug}?tab=vs">${IMG(flagOf(o), 'flag')} ${esc(o.name)}</a>` : ''; }).join('')}</div>` : ''}
+    <h2>⭐ Top 10 – learn these first</h2>
+    ${c.top.length ? c.top.map((t, i) => tipHTML(t, c.slug, i + 1)).join('') : '<p class="muted">No plonkit guide.</p>'}
+    ${c.gm ? `<h2>👀 Look at a glance</h2><div class="grid">
+      <div class="card"><h3>Bollards</h3><div class="imgrow">${(g.bollards || []).map(i => IMG(i)).join('') || '<span class="muted">none listed</span>'}</div></div>
+      <div class="card"><h3>Licence plates</h3><div class="imgrow">${(g.plates || []).map(i => IMG(i)).join('') || '<span class="muted">none</span>'}</div></div>
+      <div class="card"><h3>Road signs</h3><div class="imgrow">${['stop', 'yield', 'pedestrian', 'chevron', 'bend'].map(k => (signs[k] || []).slice(0, 2).map(i => IMG(i, 'sign', k)).join('')).join('')}</div><div class="small muted">stop · yield · pedestrian · chevron · bend</div></div>
+      ${g.alphabet?.img ? `<div class="card"><h3>Alphabet</h3><div class="imgrow">${IMG(g.alphabet.img, 'alpha')}</div></div>` : ''}
+    </div>` : ''}
+    ${c.extra?.length ? `<h2>📝 Extra notes</h2><p class="muted small">Written from general knowledge, not from plonkit.</p>${c.extra.map(x => `<div class="card"><b>${esc(x.title)}</b><p>${x.html}</p></div>`).join('')}` : ''}
+    <div class="nextstep"><b>Next:</b> <a href="#/country/${c.slug}?tab=quiz">🎯 test yourself with 10 questions</a>${allTips.length > 10 ? ` · or read <a href="#/country/${c.slug}?tab=tips">all ${allTips.length} tips by category</a>` : ''}</div>`;
+  }
+  else if (tab === 'tips') {
+    const cats = Object.keys(CAT_LABELS).filter(k => allTips.some(t => t.cat === k));
+    const sel = q.cat && cats.includes(q.cat) ? q.cat : 'all';
+    const shown = sel === 'all' ? allTips : allTips.filter(t => t.cat === sel);
+    body.innerHTML = `<p class="muted small">Every country-wide tip from plonkit, grouped by what to look at. Regional clues are in the 🗺 Regions tab.</p>
+    <div class="chips">${['all', ...cats].map(k => `<a class="chip ${k === sel ? 'active' : ''}" href="#/country/${c.slug}?tab=tips&cat=${k}&keep=1">${k === 'all' ? 'All' : CAT_LABELS[k]} <span class="muted">${k === 'all' ? allTips.length : allTips.filter(t => t.cat === k).length}</span></a>`).join('')}</div>
+    ${shown.map(t => tipHTML(t, c.slug)).join('')}`;
+  }
+  else if (tab === 'regions') {
+    body.innerHTML = `<p class="muted small">Clues that narrow the country down to a region. Headings come from plonkit.</p>${regional.map(s => `<h2>${esc(s.title)}</h2>${itemsHTML(s.items, c.slug)}`).join('')}`;
+  }
+  else if (tab === 'vs') {
+    body.innerHTML = `<p class="muted small">Every place where plonkit compares ${esc(c.name)} with another country, grouped by country. Tap a country to open its page.</p>
+    ${c.vs.map(v => { const o = findC(v.slug); if (!o) return ''; return `<div class="card"><h3><a href="#/country/${o.slug}">${IMG(flagOf(o), 'flag')} ${esc(o.name)}</a></h3>${v.items.map(it => { const im = imgOf(it.img, it.pk); return `<div class="vsitem ${im ? '' : 'noimg'}">${im ? IMG(im) : ''}<div><span class="cat">${CAT_LABELS[it.cat] || ''}</span>${it.txt}</div></div>`; }).join('')}</div>`; }).join('')}
+    ${conf.length ? `<h2>Side-by-side comparisons</h2>${conf.map(confHTML).join('')}` : ''}`;
+  }
+  else if (tab === 'metas') {
+    const lmByMap = {}; c.lm.forEach(x => (lmByMap[x.map] = lmByMap[x.map] || []).push(x));
+    body.innerHTML = `<p class="muted small">Metas from learnablemeta.com maps, each with its pictures.</p>${Object.entries(lmByMap).map(([k, v]) => `<details><summary>${esc(k)} <span class="muted small">(${v.length})</span></summary><div class="body">${v.map(metaHTML).join('')}</div></details>`).join('')}`;
+  }
+  else if (tab === 'quiz') {
+    body.innerHTML = '<div class="loading">Preparing quiz…</div>';
+    await countryQuiz(c, body);
+  }
+  else if (tab === 'more') {
+    const decks = (G.decks || []).filter(d => d.id === 'pk-top-' + c.slug || d.id === 'pk-' + c.slug || (d.id.startsWith('lm-') && c.lm.some(x => x.map === d.title)));
+    const maps = c.steps.filter(s => s.kind === 'map');
+    body.innerHTML = `<h2>🃏 Flashcard decks</h2><div class="card">${decks.length ? decks.map(deckRow).join('') : '<span class="muted">No decks.</span>'}</div>
+    ${maps.map(s => `<h2>${esc(s.title)}</h2><div class="card">${s.html}</div>`).join('')}
+    ${c.docs?.length ? `<h2>Community docs</h2><ul>${c.docs.filter(d => d.url).map(d => `<li><a href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.title)}</a></li>`).join('')}</ul>` : ''}
+    <h2>Sources</h2><p class="small"><a href="https://www.plonkit.net/${c.slug}" target="_blank" rel="noopener">plonkit.net/${c.slug}</a> (guide updated ${esc(c.updated || '?')})${c.gm ? ` · <a href="https://geomastr.com/country/${c.slug}/" target="_blank" rel="noopener">geomastr</a>` : ''} · learnablemeta.com</p>`;
+  }
 });
-function wireAnchors(app) {
-  app.querySelectorAll('.subnav a[href^="#"]').forEach(a => a.onclick = e => { e.preventDefault(); const el = document.getElementById(a.getAttribute('href').slice(1)); if (el) { const y = el.getBoundingClientRect().top + window.scrollY - 100; window.scrollTo({ top: y, behavior: 'smooth' }); } });
+
+/* 10-question quiz: this country's clues mixed with the countries it is confused with */
+async function countryQuiz(c, box) {
+  const withImg = t => !['plates', 'language'].includes(t.cat) && imgOf(t.img, t.pk_img); // plate & alphabet pictures usually print the country name
+  const own = c.steps.filter(s => s.kind === 'tips').flatMap(s => s.items.filter(i => i.k === 'tip' && withImg(i))).map(t => ({ t, slug: c.slug, name: c.name }));
+  let rivals = c.vs.map(v => findC(v.slug)).filter(Boolean).slice(0, 3);
+  if (rivals.length < 3) rivals = rivals.concat(shuffle(G.index.countries.filter(x => x.slug !== c.slug && x.continents.some(k => c.continents.includes(k)) && !rivals.includes(x) && x.tips > 15)).slice(0, 3 - rivals.length));
+  const other = [];
+  for (const r of rivals) { try { const d = await country(r.slug); (d.top.length ? d.top : []).filter(withImg).forEach(t => other.push({ t, slug: r.slug, name: r.name })); } catch (e) { } }
+  const qs = shuffle([...shuffle(own).slice(0, other.length ? 6 : 10), ...shuffle(other).slice(0, 4)]).slice(0, 10);
+  if (qs.length < 3) { box.innerHTML = '<p class="muted">Not enough pictures for a quiz yet.</p>'; return; }
+  const options = [c, ...rivals].map(x => ({ slug: x.slug, name: x.name }));
+  let i = 0, score = 0;
+  const show = () => {
+    if (i >= qs.length) {
+      const ok = score >= Math.ceil(qs.length * 0.7); const L = Learn.get(c.slug);
+      if (L && L.next <= today()) Learn.review(c.slug, ok);
+      box.innerHTML = `<div class="card" style="text-align:center"><h2>${score} / ${qs.length}</h2><p>${ok ? 'Nice – you know this country.' : 'Read the cheat sheet once more and try again.'}</p>
+      <p>${Learn.get(c.slug) ? '' : `<button class="btn primary" id="qlearn">Mark ${esc(c.name)} as learned</button> `}<button class="btn" id="qagain">Try again</button> <a class="btn" href="#/today">Back to Today</a></p></div>`;
+      $('#qlearn') && ($('#qlearn').onclick = () => { Learn.mark(c.slug); location.hash = '#/today'; });
+      $('#qagain').onclick = () => countryQuiz(c, box); return;
+    }
+    const cur = qs[i];
+    box.innerHTML = `<div class="fc"><div class="stat"><span>${i + 1} / ${qs.length}</span><span>✓ ${score}</span></div><div class="bar"><i style="width:${i / qs.length * 100}%"></i></div>
+      <div class="qhead" style="font-size:1.1rem">Which country is this?</div>
+      <div class="q">${IMG(withImg(cur.t)).replace('loading="lazy"', 'loading="eager"')}</div>
+      <div class="choices">${options.map(o => `<button data-s="${o.slug}">${esc(o.name)}</button>`).join('')}</div><div id="qa"></div></div>`;
+    box.querySelectorAll('[data-s]').forEach(b => b.onclick = () => {
+      const ok = b.dataset.s === cur.slug; if (ok) score++;
+      box.querySelectorAll('[data-s]').forEach(x => { x.disabled = true; if (x.dataset.s === cur.slug) x.classList.add('ok'); }); if (!ok) b.classList.add('bad');
+      $('#qa').innerHTML = `<div class="a"><div class="ans">${esc(cur.name)}</div><div class="note">${tidy(cur.t.html)}</div></div><p style="text-align:center"><button class="btn primary" id="qn">Next →</button></p>`;
+      $('#qn').onclick = () => { i++; show(); };
+    });
+  };
+  show();
 }
 
 /* ------------------------------------------------------------ topics */

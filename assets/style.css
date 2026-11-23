@@ -151,3 +151,43 @@ details>.body{padding:0 .9rem .9rem}
 .lightbox img{background:#fff;border-radius:8px;min-width:min(90vw,320px);object-fit:contain}
 /* transparent PNGs (alphabets, signs, infographics) must be readable everywhere */
 .tip img,.meta-item .imgs img,.fc .q img,.cmp .c img,.imgrow img,.card img:not(.flag){background:#fff}
+
+/* ---- study layout ---- */
+.flag.big{width:64px;height:46px;border-radius:6px;flex:none}
+.today-card{display:flex;align-items:center;gap:1rem;background:linear-gradient(135deg,#134e4a,#1e293b);border:1px solid var(--acc);border-radius:var(--radius);padding:1rem;margin:.6rem 0 1rem;color:var(--fg)}
+.today-card:hover{text-decoration:none;border-color:#6ee7b7}
+.today-card>div{flex:1;min-width:0}
+.tc-name{font-size:1.5rem;font-weight:800}
+.plan{display:flex;flex-direction:column}
+.plan-row{display:flex;align-items:center;gap:.6rem;padding:.45rem .3rem;border-bottom:1px solid #334155;color:var(--fg)}
+.plan-row:hover{background:var(--bg3);text-decoration:none}
+.plan-row .pn{width:1.8rem;text-align:right;color:var(--muted);font-size:.8rem}
+.plan-row .flag{width:30px;height:21px}
+.plan-row .pt{flex:1}
+.plan-row .ps{color:var(--muted);font-size:.8rem}
+.plan-row.done .pt{color:var(--acc)}
+.plan-row.cur{background:#134e4a;border-radius:8px}
+.chead{display:flex;align-items:center;gap:.9rem;flex-wrap:wrap;margin:.3rem 0 .6rem}
+.chead h1{margin:0}
+.tabs{position:sticky;top:54px;z-index:40;display:flex;gap:.25rem;overflow-x:auto;background:var(--bg);padding:.45rem 0;border-bottom:1px solid #334155;margin-bottom:.8rem;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tabs a{white-space:nowrap;padding:.45rem .75rem;border-radius:999px;color:var(--fg);background:var(--bg2);border:1px solid #334155;font-size:.9rem}
+.tabs a small{color:var(--muted)}
+.tabs a.active{background:var(--acc);color:#052e16;border-color:var(--acc);font-weight:600}
+.tabs a.active small{color:#065f46}
+.tabs a:hover{text-decoration:none}
+.fact .v.sm{font-size:.95rem}
+.tip .num{display:inline-flex;align-items:center;justify-content:center;width:1.7rem;height:1.7rem;border-radius:50%;background:var(--acc);color:#052e16;font-weight:800;font-size:.9rem;margin-right:.5rem;float:left}
+.cat{display:inline-block;font-size:.72rem;color:var(--muted);background:var(--bg3);border-radius:999px;padding:.05rem .5rem;margin-bottom:.3rem}
+.tip .txt .cat{display:table}
+.note{color:#cbd5e1;font-size:.92em;border-left:3px solid var(--warn);padding-left:.6rem;margin:.4rem 0}
+.vsline{display:flex;flex-wrap:wrap;gap:.4rem .8rem;align-items:center;background:var(--bg2);border:1px solid #334155;border-radius:10px;padding:.5rem .7rem;margin:.6rem 0;font-size:.92rem}
+.vsline a{display:inline-flex;align-items:center;gap:.3rem}
+.vsline .flag{width:24px;height:17px}
+.vsitem{display:grid;grid-template-columns:160px 1fr;gap:.7rem;padding:.5rem 0;border-top:1px solid #334155;align-items:start}
+.vsitem:first-of-type{border-top:none}
+.vsitem img{width:100%;border-radius:6px;cursor:zoom-in;background:#fff}
+@media(max-width:600px){.vsitem{grid-template-columns:1fr}}
+.nextstep{margin:1.2rem 0;padding:.8rem 1rem;background:#134e4a;border-radius:var(--radius)}
+.pager{display:flex;justify-content:space-between;gap:.5rem;margin:2rem 0 1rem}
+h1 .flag,h3 .flag{width:30px;height:21px}
+.vsitem.noimg{grid-template-columns:1fr}
