@@ -149,3 +149,5 @@ details>.body{padding:0 .9rem .9rem}
 .pkbtn:hover{background:var(--acc2);color:#0f172a;text-decoration:none}
 .cmp .c .pkbtn{margin:.5rem 0}
 .lightbox img{background:#fff;border-radius:8px;min-width:min(90vw,320px);object-fit:contain}
+/* transparent PNGs (alphabets, signs, infographics) must be readable everywhere */
+.tip img,.meta-item .imgs img,.fc .q img,.cmp .c img,.imgrow img,.card img:not(.flag){background:#fff}
