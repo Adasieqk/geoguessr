@@ -47,7 +47,6 @@ window.addEventListener('hashchange', render);
 route(/^\/$/, async app => {
   const idx = G.index;
   app.innerHTML = `
-    ${(() => { const n = todaysCountry(), d = dueReviews().length; return n ? `<a class="today-card" href="#/today">${IMG(flagOf(n), 'flag big')}<div><div class="muted small">📅 Today's country</div><div class="tc-name">${esc(n.name)}</div><div class="muted small">${d ? d + ' review(s) due' : 'no reviews due'}</div></div><span class="btn primary">Open →</span></a>` : ''; })()}
     <p class="muted small">Click a country on the map or use search. Text from plonkit.net, pictures from learnablemeta.com and geomastr.com.</p>
     <div class="mapwrap" id="mapwrap"><div class="loading">Loading map…</div><div class="maptip" id="maptip"></div>
       <div class="mapctl"><button id="zin">+</button><button id="zout">−</button><button id="zreset" title="reset">⟲</button></div></div>
@@ -141,48 +140,6 @@ route(/^\/continent\/([a-z-]+)$/, async (app, m) => {
   <h2>Countries</h2><div class="grid narrow">${cs.map(countryCard).join('')}</div>`;
 });
 
-/* ------------------------------------------------------------ study plan (1 country a day) */
-const STUDY_ORDER_CONTS = ['Europe', 'North America', 'South America', 'Asia', 'Oceania', 'Africa', 'Antarctica'];
-const LEARN_KEY = 'geostudy.learn.v1';
-const REVIEW_DAYS = [1, 3, 7, 14, 30, 60, 120];
-const today = () => new Date().toISOString().slice(0, 10);
-const addDays = (d, n) => { const x = new Date(d + 'T12:00:00'); x.setDate(x.getDate() + n); return x.toISOString().slice(0, 10); };
-const Learn = {
-  load() { try { return JSON.parse(localStorage.getItem(LEARN_KEY) || '{}'); } catch (e) { return {}; } },
-  save(d) { localStorage.setItem(LEARN_KEY, JSON.stringify(d)); },
-  get(slug) { return this.load()[slug]; },
-  mark(slug) { const d = this.load(); d[slug] = { learned: today(), step: 0, next: addDays(today(), REVIEW_DAYS[0]) }; this.save(d); },
-  unmark(slug) { const d = this.load(); delete d[slug]; this.save(d); },
-  review(slug, ok) { const d = this.load(); const e = d[slug]; if (!e) return; e.step = ok ? Math.min(REVIEW_DAYS.length - 1, e.step + 1) : 0; e.next = addDays(today(), REVIEW_DAYS[e.step]); e.last = today(); this.save(d); },
-};
-function studyOrder() {
-  const seen = new Set(), out = [];
-  for (const cont of STUDY_ORDER_CONTS) {
-    G.index.countries.filter(c => c.continents[0] === cont || (c.continents.includes(cont) && !STUDY_ORDER_CONTS.includes(c.continents[0])))
-      .filter(c => !seen.has(c.slug)).sort((a, b) => b.tips - a.tips)
-      .forEach(c => { seen.add(c.slug); out.push({ ...c, cont }); });
-  }
-  G.index.countries.filter(c => !seen.has(c.slug)).forEach(c => out.push({ ...c, cont: c.continents[0] || 'Other' }));
-  return out;
-}
-const todaysCountry = () => { const L = Learn.load(); return studyOrder().find(c => !L[c.slug]); };
-const dueReviews = () => { const L = Learn.load(), t = today(); return studyOrder().filter(c => L[c.slug] && L[c.slug].next <= t); };
-
-route(/^\/today$/, async app => {
-  const order = studyOrder(), L = Learn.load(), next = todaysCountry(), due = dueReviews();
-  const done = order.filter(c => L[c.slug]).length;
-  app.innerHTML = `<h1>📅 Today</h1>
-  <p class="muted">One country a day: read the cheat sheet, do the 10-question quiz, mark it as learned. It comes back for a short review after 1, 3, 7, 14… days.</p>
-  ${next ? `<a class="today-card" href="#/country/${next.slug}">${IMG(flagOf(next), 'flag big')}<div><div class="muted small">Today's country · ${esc(next.cont)}</div><div class="tc-name">${esc(next.name)}</div><div class="muted small">${next.tips} tips · ~15 min</div></div><span class="btn primary">Start →</span></a>` : '<div class="card">🎉 Every country is learned.</div>'}
-  <h2>🔁 Reviews due <span class="muted small">(${due.length})</span></h2>
-  ${due.length ? `<div class="grid narrow">${due.map(c => `<a class="ccard" href="#/country/${c.slug}?tab=quiz">${IMG(flagOf(c))}<div><div>${esc(c.name)}</div><div class="meta">quick quiz</div></div></a>`).join('')}</div>` : '<p class="muted">Nothing to review today.</p>'}
-  <h2>📈 Progress <span class="muted small">${done} / ${order.length} countries</span></h2>
-  <div class="bar" style="height:10px"><i style="width:${done / order.length * 100}%"></i></div>
-  ${STUDY_ORDER_CONTS.map(cont => { const cs = order.filter(c => c.cont === cont); if (!cs.length) return ''; const d = cs.filter(c => L[c.slug]).length;
-    return `<details ${cs.includes(next) ? 'open' : ''}><summary>${esc(cont)} <span class="muted small">${d} / ${cs.length}</span></summary><div class="body"><div class="plan">${cs.map((c, i) => `<a class="plan-row ${L[c.slug] ? 'done' : ''} ${c === next ? 'cur' : ''}" href="#/country/${c.slug}"><span class="pn">${i + 1}</span>${IMG(flagOf(c), 'flag')}<span class="pt">${esc(c.name)}</span><span class="ps">${L[c.slug] ? '✓ ' + (L[c.slug].next <= today() ? 'review due' : 'next review ' + L[c.slug].next) : c === next ? 'today' : c.tips + ' tips'}</span></a>`).join('')}</div></div></details>`; }).join('')}
-  <p class="muted small">Order: Europe → North America → South America → Asia → Oceania → Africa; inside each continent, countries with the most content (≈ most coverage) first. You can open any country at any time. Progress is stored in this browser.</p>`;
-});
-
 /* ------------------------------------------------------------ country page */
 const CAT_LABELS = { plates: '🚗 Plates', bollards: '🟥 Bollards', poles: '⚡ Poles', lines: '🛣 Road lines', signs: '⚠️ Signs & road furniture', language: '🔤 Language', car: '📷 Google car & coverage', vehicles: '🚚 Vehicles', buildings: '🏠 Buildings', nature: '🌿 Landscape', other: '📌 Other' };
 const tidy = h => (h || '').replace(/!!/g, '').replace(/<p>\s*NOTE:\s*/g, '<p class="note"><b>Note:</b> ').replace(/([^>\s])\s*NOTE:\s*/g, '$1</p><p class="note"><b>Note:</b> ');
@@ -206,19 +163,17 @@ route(/^\/country\/([a-z0-9-]+)$/, async (app, m, q) => {
   const general = tipSteps.filter(s => !regional.includes(s));
   const allTips = general.flatMap(s => s.items.filter(i => i.k === 'tip'));
   const conf = (G.curated.confusables || []).filter(x => x.countries.includes(c.slug));
-  const order = studyOrder(); const pos = order.findIndex(x => x.slug === c.slug);
-  const prev = order[pos - 1], nxt = order[pos + 1];
+  const sibs = G.index.countries.filter(x => x.continents[0] === c.continents[0]).sort((a, b) => a.name.localeCompare(b.name));
+  const pos = sibs.findIndex(x => x.slug === c.slug); const prev = sibs[pos - 1], nxt = sibs[pos + 1];
   const has = { regions: regional.length, vs: c.vs.length || conf.length, metas: c.lm.length };
   let tab = q.tab || 'sheet'; if (has[tab] === 0) tab = 'sheet';
-  const L = Learn.get(c.slug);
   app.innerHTML = `
   <div class="chead">${IMG(flagOf(c), 'flag big')}<div style="flex:1;min-width:0"><h1>${esc(c.name)}</h1>
-    <div class="muted small">${c.continents.map(x => `<a href="#/continent/${contSlug(x)}">${esc(x)}</a>`).join(' · ')}${pos >= 0 ? ` · day ${pos + 1} of the plan` : ''}</div></div>
-    <button class="btn ${L ? '' : 'primary'}" id="learnbtn">${L ? '✓ Learned' : 'Mark as learned'}</button></div>
+    <div class="muted small">${c.continents.map(x => `<a href="#/continent/${contSlug(x)}">${esc(x)}</a>`).join(' · ')}</div></div>
+    <a class="btn" href="#/random" title="random country">🎲 Random</a></div>
   <nav class="tabs">${TABS.filter(([k]) => has[k] !== 0).map(([k, l]) => `<a class="${k === tab ? 'active' : ''}" href="#/country/${c.slug}?tab=${k}">${l}${k === 'regions' ? ` <small>${regional.reduce((n, s) => n + s.items.filter(i => i.k === 'tip').length, 0)}</small>` : k === 'tips' ? ` <small>${allTips.length}</small>` : k === 'metas' ? ` <small>${c.lm.length}</small>` : ''}</a>`).join('')}</nav>
   <div id="tabbody"></div>
   <div class="pager">${prev ? `<a class="btn" href="#/country/${prev.slug}">← ${esc(prev.name)}</a>` : '<span></span>'}${nxt ? `<a class="btn" href="#/country/${nxt.slug}">${esc(nxt.name)} →</a>` : ''}</div>`;
-  $('#learnbtn').onclick = () => { if (Learn.get(c.slug)) Learn.unmark(c.slug); else Learn.mark(c.slug); render(); };
   const body = $('#tabbody');
 
   if (tab === 'sheet') {
@@ -275,6 +230,8 @@ route(/^\/country\/([a-z0-9-]+)$/, async (app, m, q) => {
   }
 });
 
+route(/^\/random$/, async () => { const cs = G.index.countries.filter(c => c.tips >= 10); location.replace('#/country/' + cs[Math.floor(Math.random() * cs.length)].slug); });
+
 /* 10-question quiz: this country's clues mixed with the countries it is confused with */
 async function countryQuiz(c, box) {
   const withImg = t => !['plates', 'language'].includes(t.cat) && imgOf(t.img, t.pk_img); // plate & alphabet pictures usually print the country name
@@ -289,11 +246,9 @@ async function countryQuiz(c, box) {
   let i = 0, score = 0;
   const show = () => {
     if (i >= qs.length) {
-      const ok = score >= Math.ceil(qs.length * 0.7); const L = Learn.get(c.slug);
-      if (L && L.next <= today()) Learn.review(c.slug, ok);
-      box.innerHTML = `<div class="card" style="text-align:center"><h2>${score} / ${qs.length}</h2><p>${ok ? 'Nice – you know this country.' : 'Read the cheat sheet once more and try again.'}</p>
-      <p>${Learn.get(c.slug) ? '' : `<button class="btn primary" id="qlearn">Mark ${esc(c.name)} as learned</button> `}<button class="btn" id="qagain">Try again</button> <a class="btn" href="#/today">Back to Today</a></p></div>`;
-      $('#qlearn') && ($('#qlearn').onclick = () => { Learn.mark(c.slug); location.hash = '#/today'; });
+      const ok = score >= Math.ceil(qs.length * 0.7);
+      box.innerHTML = `<div class="card" style="text-align:center"><h2>${score} / ${qs.length}</h2><p>${ok ? 'Nice – you know this country.' : 'Have another look at the cheat sheet and try again.'}</p>
+      <p><button class="btn primary" id="qagain">Try again</button> <a class="btn" href="#/country/${c.slug}">Cheat sheet</a></p></div>`;
       $('#qagain').onclick = () => countryQuiz(c, box); return;
     }
     const cur = qs[i];

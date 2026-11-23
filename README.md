@@ -6,14 +6,11 @@ Static site (no build step, no backend) that compiles GeoGuessr "meta" knowledge
 into one mobile-friendly reference with flashcards and map quizzes. For personal use only – the
 content and pictures belong to those projects.
 
-## How to study with it
+## Country pages
 
-* **📅 Today** – one country a day, in order Europe → North America → South America → Asia → Oceania → Africa.
-  Read the cheat sheet, take the 10-question quiz, press *Mark as learned*. Learned countries come back for a
-  short quiz after 1, 3, 7, 14, 30… days.
-* **Country page tabs** – 📋 Cheat sheet (facts, top 10, pictures at a glance) · 🗂 All tips (grouped by plates,
-  bollards, poles, lines, signs, language, car, …) · 🗺 Regions · 🤔 Confused with (every plonkit comparison with
-  another country) · 🔎 Metas · 🎯 Quiz · 📚 More (decks, map lists, sources).
+Tabs: 📋 Cheat sheet (facts, top 10, pictures at a glance) · 🗂 All tips (grouped by plates, bollards, poles,
+lines, signs, language, car, …) · 🗺 Regions · 🤔 Confused with (every plonkit comparison with another country) ·
+🔎 Metas · 🎯 Quiz · 📚 More (decks, map lists, sources). 🎲 Random opens a random country.
 
 ## Running it
 
