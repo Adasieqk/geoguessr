@@ -38,13 +38,15 @@ except ImportError:
     Image = None
 
 
-def wanted_urls(all_images):
+def wanted_urls(all_images, priority=False):
     """Collect plonkit picture URLs referenced by the site data."""
     urls = {}
     for f in sorted(glob.glob(os.path.join(ROOT, 'data', 'countries', '*.json'))):
         slug = os.path.basename(f)[:-5]
         d = json.load(open(f, encoding='utf-8'))
         for st in d.get('steps', []):
+            if priority and not (st.get('title') or '').lower().startswith('identifying'):
+                continue
             for it in st.get('items', []):
                 u = it.get('pk_img')
                 if u and (all_images or not it.get('img')):
@@ -193,13 +195,14 @@ def import_folder(folder, urls):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--all', action='store_true', help='download every plonkit picture, not only the missing ones')
+    ap.add_argument('--priority', action='store_true', help='only the key pictures: each country\'s "Identifying" step + confusables (much fewer)')
     ap.add_argument('--browser', action='store_true', help='write pk_console.js for the browser fallback')
     ap.add_argument('--import', dest='imp', metavar='FOLDER', help='import pictures saved by pk_console.js')
     ap.add_argument('--delay', type=float, default=1.0, help='seconds between requests (default 1.0)')
     a = ap.parse_args()
     if Image is None:
         print('Note: Pillow not installed -> pictures are stored unconverted (bigger). pip install pillow\n')
-    urls = wanted_urls(a.all)
+    urls = wanted_urls(a.all, a.priority)
     if a.browser:
         browser_script(urls)
     elif a.imp:
