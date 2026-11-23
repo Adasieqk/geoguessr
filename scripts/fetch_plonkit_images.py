@@ -147,7 +147,7 @@ CONSOLE_JS = r"""// GeoStudy: paste into the DevTools console on https://www.plo
   const dir = await window.showDirectoryPicker({ mode: 'readwrite' });
   const have = new Set(); for await (const [n] of dir.entries()) have.add(n);
   const todo = LIST.filter(([, name]) => !have.has(name));
-  console.log(`${LIST.length - todo.length} already saved, ${todo.length} to download (~${Math.round(todo.length * 1.3 / 60)} min)`);
+  console.log(`${LIST.length - todo.length} already saved, ${todo.length} to download (~${Math.round(todo.length * 4 / 60)} min if plonkit does not block you)`);
   let ok = 0, fail = 0, wait = 0;
   for (let i = 0; i < todo.length; i++) {
     const [url, name] = todo[i];
@@ -155,7 +155,7 @@ CONSOLE_JS = r"""// GeoStudy: paste into the DevTools console on https://www.plo
     for (let attempt = 0; attempt < 6 && !done; attempt++) {
       try {
         const r = await fetch(url, { credentials: 'include' });
-        if (r.status === 429 || r.status === 403) { wait = Math.min(180, (wait || 15) * 2); console.warn(`rate limited (${r.status}), waiting ${wait}s ...`); await sleep(wait * 1000); continue; }
+        if (r.status === 429 || r.status === 403) { wait = Math.min(900, (wait || 60) * 2); console.warn(`rate limited (${r.status}), waiting ${wait}s ...`); await sleep(wait * 1000); continue; }
         if (!r.ok) { console.warn('skip', r.status, url); break; }
         const fh = await dir.getFileHandle(name, { create: true });
         const w = await fh.createWritable(); await w.write(await r.blob()); await w.close();
@@ -164,7 +164,7 @@ CONSOLE_JS = r"""// GeoStudy: paste into the DevTools console on https://www.plo
     }
     if (!done) fail++;
     if (i % 25 === 0) console.log(`${i}/${todo.length}  ok=${ok} failed=${fail}`);
-    await sleep(1200 + Math.random() * 600);
+    await sleep(3000 + Math.random() * 2000);
   }
   console.log(`done: ok=${ok} failed=${fail}. ` + (fail ? 'Run the script again to retry the failed ones. ' : '') + 'Now run: python3 scripts/fetch_plonkit_images.py --import <that folder>');
 })();
