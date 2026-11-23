@@ -1,0 +1,161 @@
+{
+"alaska": {
+"drive": "Right",
+"languages": "English",
+"script": "Latin"
+},
+"hawaii": {
+"drive": "Right",
+"languages": "English, Hawaiian (letters ʻ ā ē ī ō ū)",
+"script": "Latin"
+},
+"azores": {
+"drive": "Right",
+"languages": "Portuguese",
+"script": "Latin"
+},
+"madeira": {
+"drive": "Right",
+"languages": "Portuguese",
+"script": "Latin"
+},
+"belarus": {
+"drive": "Right",
+"languages": "Belarusian, Russian",
+"script": "Cyrillic (ў and і are not Russian)"
+},
+"china": {
+"drive": "Right",
+"languages": "Mandarin Chinese",
+"script": "Chinese characters (simplified)"
+},
+"cocos-islands": {
+"drive": "Left",
+"languages": "English (Australian territory)",
+"script": "Latin"
+},
+"costa-rica": {
+"drive": "Right",
+"languages": "Spanish",
+"script": "Latin"
+},
+"cyprus": {
+"drive": "Left",
+"languages": "Greek, Turkish (north)",
+"script": "Greek + Latin"
+},
+"egypt": {
+"drive": "Right",
+"languages": "Arabic",
+"script": "Arabic script"
+},
+"falkland-islands": {
+"drive": "Left",
+"languages": "English",
+"script": "Latin"
+},
+"hong-kong": {
+"drive": "Left",
+"languages": "Cantonese (traditional Chinese characters), English",
+"script": "Chinese characters (traditional) + Latin"
+},
+"iraq": {
+"drive": "Right",
+"languages": "Arabic, Kurdish",
+"script": "Arabic script"
+},
+"kazakhstan": {
+"drive": "Right",
+"languages": "Kazakh, Russian",
+"script": "Cyrillic (Kazakh adds ә ғ қ ң ө ұ ү һ і)"
+},
+"lebanon": {
+"drive": "Right",
+"languages": "Arabic, French, English",
+"script": "Arabic script + Latin"
+},
+"liechtenstein": {
+"drive": "Right",
+"languages": "German",
+"script": "Latin"
+},
+"macau": {
+"drive": "Left",
+"languages": "Chinese (traditional characters), Portuguese",
+"script": "Chinese characters + Latin"
+},
+"mali": {
+"drive": "Right",
+"languages": "French (many local languages)",
+"script": "Latin"
+},
+"martinique": {
+"drive": "Right",
+"languages": "French",
+"script": "Latin"
+},
+"namibia": {
+"drive": "Left",
+"languages": "English, Afrikaans, German",
+"script": "Latin"
+},
+"nepal": {
+"drive": "Left",
+"languages": "Nepali",
+"script": "Devanagari"
+},
+"oman": {
+"drive": "Right",
+"languages": "Arabic",
+"script": "Arabic script"
+},
+"pakistan": {
+"drive": "Left",
+"languages": "Urdu, English",
+"script": "Arabic-based (Urdu) script + Latin"
+},
+"panama": {
+"drive": "Right",
+"languages": "Spanish",
+"script": "Latin"
+},
+"pitcairn-islands": {
+"languages": "English",
+"script": "Latin"
+},
+"reunion": {
+"drive": "Right",
+"languages": "French",
+"script": "Latin"
+},
+"saint-pierre-and-miquelon": {
+"drive": "Right",
+"languages": "French",
+"script": "Latin"
+},
+"sao-tome-and-principe": {
+"drive": "Right",
+"languages": "Portuguese",
+"script": "Latin"
+},
+"svalbard": {
+"drive": "Right",
+"languages": "Norwegian (Russian in Barentsburg)",
+"script": "Latin (+ Cyrillic in Barentsburg)"
+},
+"tanzania": {
+"drive": "Left",
+"languages": "Swahili, English",
+"script": "Latin"
+},
+"vanuatu": {
+"drive": "Right",
+"languages": "Bislama, English, French",
+"script": "Latin",
+"phone": "+678"
+},
+"british-indian-ocean-territory": {
+"languages": "English",
+"script": "Latin"
+}
+}

@@ -175,7 +175,7 @@ route(/^\/country\/([a-z0-9-]+)$/, async (app, m) => {
     <div class="fact"><div class="k">Phone code</div><div class="v">${esc(c.phone || '?')}</div></div>
     <div class="fact"><div class="k">Driving side</div><div class="v">${esc(c.drive || '?')}</div></div>
     <div class="fact"><div class="k">Road lines</div><div class="v" style="font-size:.95rem">${esc(q.road_lines || '—')}</div></div>
-    <div class="fact"><div class="k">Script / language</div><div class="v" style="font-size:.95rem">${esc(q.alphabet?.script || '—')}<br><span class="muted small">${esc(q.alphabet?.languages || '')}</span></div></div>
+    <div class="fact"><div class="k">Script / language</div><div class="v" style="font-size:.95rem">${esc(q.alphabet?.script || c.script || '—')}<br><span class="muted small">${esc(q.alphabet?.languages || c.langs || '')}</span></div></div>
     <div class="fact"><div class="k">ISO</div><div class="v">${esc(c.code || '')}</div></div>
     <div class="fact"><div class="k">Guide updated</div><div class="v" style="font-size:.95rem">${esc(c.updated || '—')}</div></div>
   </div>

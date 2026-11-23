@@ -269,6 +269,7 @@ print('image borrowing', dict(match_stats))
 # ---------------------------------------------------------------- write per-country
 os.makedirs(os.path.join(OUT, 'countries'), exist_ok=True)
 index = []
+EXTRA = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'curated', 'extra_facts.json'))) if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'curated', 'extra_facts.json')) else {}
 all_slugs = sorted(set(guides) | set(gm))
 for slug in all_slugs:
     g = guides.get(slug); q = gm.get(slug)
@@ -277,10 +278,11 @@ for slug in all_slugs:
     conts = g['continents'] if g else []
     if not conts and q:
         conts = []
+    ef = EXTRA.get(slug, {})
     country = {
         'slug': slug, 'name': name, 'code': g['code'] if g else None, 'continents': conts,
         'hero': g['hero'] if g else None, 'updated': g['updated'] if g else None, 'flag': (q['flag'] if q else None) or local_flag(g['code'] if g else None),
-        'drive': drive.get(name) or drive.get(q['name'] if q else ''), 'phone': phone.get(slug) or phone.get(name) or phone.get(q['name'] if q else ''),
+        'drive': drive.get(name) or drive.get(q['name'] if q else '') or ef.get('drive'), 'langs': ef.get('languages'), 'script': ef.get('script'), 'phone': phone.get(slug) or phone.get(name) or phone.get(q['name'] if q else '') or ef.get('phone'),
         'gm': q, 'steps': g['steps'] if g else [], 'docs': g['docs'] if g else [],
         'lm': by_country.get(slug, []),
     }
