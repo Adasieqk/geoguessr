@@ -1,0 +1,96 @@
+{
+"egypt": [
+{
+"title": "Digits",
+"html": "Signs often use <b>Eastern Arabic numerals</b> (٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩) next to or instead of 0–9. The Maghreb (Morocco, Algeria, Tunisia) mostly uses the Western digits 0–9, so Eastern digits on a sign point to the Middle East / Egypt side."
+}
+],
+"iraq": [
+{
+"title": "Digits",
+"html": "Eastern Arabic numerals (٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩) are normal. Kurdish (north) is written in Arabic script too, with extra letters such as <b>ڕ ڵ ۆ ێ</b>."
+}
+],
+"pakistan": [
+{
+"title": "Driving side",
+"html": "Pakistan drives on the <b>left</b>, like India, Nepal and Bangladesh. Neighbouring Iran and Afghanistan drive on the right."
+},
+{
+"title": "Script",
+"html": "Urdu is written in a flowing, slanted <b>Nastaliq</b> style and has letters Arabic lacks, such as <b>ٹ ڈ ڑ ں ے</b>. English is used on most official signs."
+},
+{
+"title": "Trucks",
+"html": "Heavily painted and decorated lorries (“truck art”) are a very common sight."
+}
+],
+"nepal": [
+{
+"title": "Script",
+"html": "Nepali uses <b>Devanagari</b> (a horizontal line along the top of the letters, like Hindi). Driving is on the <b>left</b>, same as India."
+}
+],
+"tanzania": [
+{
+"title": "Swahili words",
+"html": "Useful on signs: <b>barabara</b> = road, <b>kituo</b> = station/stop, <b>mji</b> = town, <b>hospitali</b> = hospital, <b>shule</b> = school, <b>polepole</b> = slowly. Swahili is also used in Kenya and Uganda, which also drive on the left."
+}
+],
+"namibia": [
+{
+"title": "Languages",
+"html": "English is official, but <b>Afrikaans</b> (<i>straat</i> = street, <i>pad</i> = road) and <b>German</b> are widely seen. German colonial names such as <b>Swakopmund</b> and <b>Lüderitz</b> are a strong clue. Namibia drives on the <b>left</b>; Angola to the north drives on the right."
+}
+],
+"cyprus": [
+{
+"title": "Driving side",
+"html": "Cyprus, Malta and Ireland are the only EU countries that drive on the <b>left</b>."
+},
+{
+"title": "Script",
+"html": "Greek in the south (Greek alphabet), Turkish (Latin alphabet) in the north; signs are often bilingual with English."
+}
+],
+"kazakhstan": [
+{
+"title": "Script",
+"html": "Kazakh and Russian are both written in <b>Cyrillic</b>. Kazakh adds <b>ә ғ қ ң ө ұ ү һ і</b>, which Russian does not have. Kazakhstan drives on the right."
+}
+],
+"hong-kong": [
+{
+"title": "Driving side and taxis",
+"html": "Hong Kong drives on the <b>left</b>. Urban taxis are <b>red</b>, New Territories taxis green and Lantau taxis blue."
+},
+{
+"title": "Script",
+"html": "Traditional Chinese characters (not simplified) plus English on most signs."
+}
+],
+"macau": [
+{
+"title": "Driving side",
+"html": "Macau drives on the <b>left</b>, as does Hong Kong, unlike mainland China."
+}
+],
+"martinique": [
+{
+"title": "French overseas department",
+"html": "The department number <b>972</b> is Martinique's postcode prefix. Other French overseas departments: 971 Guadeloupe, 973 French Guiana, 974 Réunion, 976 Mayotte, 975 Saint-Pierre and Miquelon (a collectivity)."
+}
+],
+"reunion": [
+{
+"title": "French overseas department",
+"html": "Postcodes start with <b>974</b>. Road signs, plates and bollards follow French standards, so look at vegetation (tropical, sugar cane) and the Indian Ocean setting to separate it from mainland France."
+}
+],
+"saint-pierre-and-miquelon": [
+{
+"title": "French territory",
+"html": "Postcodes start with <b>975</b>. It is French in style (signs, plates) but sits off Newfoundland, so cold North Atlantic scenery with French signage is the clue."
+}
+]
+}

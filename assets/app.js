@@ -180,6 +180,7 @@ route(/^\/country\/([a-z0-9-]+)$/, async (app, m) => {
     <div class="fact"><div class="k">Guide updated</div><div class="v" style="font-size:.95rem">${esc(c.updated || '—')}</div></div>
   </div>
   ${q.alphabet?.img ? `<div class="imgrow">${IMG(q.alphabet.img, 'alpha')}</div>` : ''}
+  ${c.extra?.length ? `<h2 id="extra">Extra notes</h2><p class="muted small">Written from general knowledge, not from plonkit.</p>${c.extra.map(x => `<div class="card"><b>${esc(x.title)}</b><p>${x.html}</p></div>`).join('')}` : ''}
   <h2 id="top">Top clues</h2>
   <p class="muted small">The first tips of the plonkit "Identifying" step – these are the things to learn first.</p>
   ${c.top.length ? c.top.map(t => tipHTML(t, c.slug)).join('') : '<p class="muted">No plonkit guide for this country.</p>'}
