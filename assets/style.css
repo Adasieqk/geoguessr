@@ -148,3 +148,4 @@ details>.body{padding:0 .9rem .9rem}
 .pkbtn{display:inline-block;padding:.45rem .8rem;border-radius:8px;background:var(--bg3);border:1px solid var(--acc2);color:var(--acc2);font-size:.9rem;font-weight:600}
 .pkbtn:hover{background:var(--acc2);color:#0f172a;text-decoration:none}
 .cmp .c .pkbtn{margin:.5rem 0}
+.lightbox img{background:#fff;border-radius:8px;min-width:min(90vw,320px);object-fit:contain}
